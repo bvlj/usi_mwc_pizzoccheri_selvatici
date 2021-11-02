@@ -1,0 +1,86 @@
+plugins {
+    id 'com.android.application'
+    id 'kotlin-android'
+}
+
+android {
+    compileSdkVersion 31
+
+    sourceSets {
+        main {
+            manifest {
+                srcFile 'java/ch/usi/inf/mwc/cusi/AndroidManifest.xml'
+            }
+            java {
+                srcDir 'java'
+                includes = [
+                        'java/ch/usi/inf/mwc/cusi/**/*.java',
+                        'java/ch/usi/inf/mwc/cusi/**/*.kt',
+                ]
+            }
+            res {
+                srcDirs = [
+                        'res',
+                ]
+            }
+        }
+        test {
+            java {
+                srcDir 'javatests'
+            }
+        }
+    }
+
+    defaultConfig {
+        minSdkVersion 27
+        targetSdkVersion 31
+        versionCode 1
+        versionName '1.0.0'
+    }
+
+    buildFeatures {
+        buildConfig = false
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
+    }
+
+    kotlinOptions {
+        jvmTarget = '11'
+    }
+
+    dependenciesInfo {
+        includeInApk false
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    def activity_version = '1.4.0'
+    def coroutines_version = '1.5.2'
+    def lifecycle_version = '2.4.0'
+    def material_version = '1.4.0'
+    def recyclerview_version = '1.2.1'
+    def room_version = "2.3.0"
+    def work_version = "2.7.0"
+
+    implementation "androidx.activity:activity-ktx:$activity_version"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version"
+    implementation "androidx.lifecycle:lifecycle-common-java8:$lifecycle_version"
+    implementation "androidx.recyclerview:recyclerview:$recyclerview_version"
+    implementation "androidx.room:room-runtime:$room_version"
+    implementation "androidx.work:work-runtime-ktx:$work_version"
+    implementation "com.google.android.material:material:$material_version"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines_version"
+
+    annotationProcessor "androidx.room:room-compiler:$room_version"
+}
