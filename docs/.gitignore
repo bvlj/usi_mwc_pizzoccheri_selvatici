@@ -281,3 +281,6 @@ TSWLatexianTemp*
 
 # Venv
 /.env
+
+# Submissions
+*.zip
