@@ -3,7 +3,9 @@ package ch.usi.inf.mwc.cusi.main
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.viewModels
+import androidx.lifecycle.lifecycleScope
 import ch.usi.inf.mwc.cusi.R
+import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity() {
 
@@ -13,5 +15,8 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         setContentView(R.layout.activity_main)
+        lifecycleScope.launch {
+            viewModel.randomMethdo()
+        }
     }
 }
