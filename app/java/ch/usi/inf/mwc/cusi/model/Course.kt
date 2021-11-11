@@ -1,10 +1,15 @@
-package ch.usi.inf.mwc.cusi.model;
+package ch.usi.inf.mwc.cusi.model
+
+import androidx.room.Embedded
+import androidx.room.Relation
 
 data class Course(
-    val id: Int,
-    val name: String,
-    val description: String,
-    val semester: String,
-    val faculty: Faculty,
-    val lecturers: List<CourseLecturer>,
+    @Embedded
+    val courseWithLecturers: CourseWithLecturers,
+    @Relation(
+        parentColumn = "courseId",
+        entity = Lecture::class,
+        entityColumn = "courseId",
+    )
+    val lectures: List<Lecture>,
 )

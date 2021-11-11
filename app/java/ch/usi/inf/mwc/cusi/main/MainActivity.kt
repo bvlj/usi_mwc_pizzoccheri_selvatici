@@ -16,7 +16,7 @@ class MainActivity : ComponentActivity() {
 
         setContentView(R.layout.activity_main)
         lifecycleScope.launch {
-            viewModel.randomMethdo()
+            viewModel.test()
         }
     }
 }

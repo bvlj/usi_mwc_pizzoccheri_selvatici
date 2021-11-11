@@ -4,27 +4,27 @@ import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.Index
 import androidx.room.PrimaryKey
-import java.net.URL
 
 @Entity(
     foreignKeys = [
         ForeignKey(
-            entity = Campus::class,
-            parentColumns = ["campusId"],
-            childColumns = ["campusId"],
+            entity = Faculty::class,
+            parentColumns = ["facultyId"],
+            childColumns = ["facultyId"],
             onDelete = ForeignKey.CASCADE,
         )
     ],
     indices = [
         Index("name"),
-        Index("campusId"),
+        Index("facultyId"),
     ],
 )
-data class Faculty(
+data class CourseInfo(
     @PrimaryKey
-    val facultyId: Int,
+    val courseId: Int,
     val name: String,
-    val url: URL,
-    val acronym: String,
-    val campusId: Int,
+    val description: String,
+    val semester: String,
+    val facultyId: Int,
+    val hasEnrolled: Boolean = false,
 )
