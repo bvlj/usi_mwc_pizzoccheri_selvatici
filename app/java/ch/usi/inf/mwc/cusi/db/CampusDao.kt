@@ -9,8 +9,8 @@ interface CampusDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(campus: Campus)
 
-    @Delete
-    suspend fun delete(campus: Campus)
+    @Query("DELETE FROM Campus")
+    suspend fun deleteAll()
 
     @Query("SELECT * from Campus ORDER BY name")
     @Transaction

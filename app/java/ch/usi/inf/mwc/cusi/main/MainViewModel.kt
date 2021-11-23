@@ -1,25 +1,17 @@
 package ch.usi.inf.mwc.cusi.main
 
-import android.util.Log
-import androidx.lifecycle.ViewModel
-import ch.usi.inf.mwc.cusi.networking.UsiServices
+import android.app.Application
+import android.database.sqlite.SQLiteConstraintException
+import androidx.lifecycle.AndroidViewModel
+import ch.usi.inf.mwc.cusi.networking.sync.AppDataSync
 
-class MainViewModel : ViewModel() {
-    suspend fun test() {
-        val sb = StringBuilder()
-        UsiServices.getCampusesWithFaculties().forEach { cf ->
-            sb.append("\n============================\n")
-                .append("Campus: ${cf.campus}\n")
-            cf.faculties.forEach { faculty ->
-                sb.append("  - Faculty: $faculty\n")
-                UsiServices.getCoursesByFaculty(faculty).forEach { course ->
-                    sb.append("    - Course: ${course.info}\n")
-                    course.lecturers.forEach { lecturer ->
-                        sb.append("      - $lecturer\n")
-                    }
-                }
-            }
-            Log.e("HELLOTAG", sb.toString())
+class MainViewModel(app: Application) : AndroidViewModel(app) {
+
+    suspend fun sync() {
+        try {
+            AppDataSync.fetchInfo(getApplication())
+        } catch (e: SQLiteConstraintException) {
+            e.printStackTrace()
         }
     }
 }

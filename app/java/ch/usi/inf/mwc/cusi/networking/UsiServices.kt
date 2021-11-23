@@ -1,10 +1,11 @@
 package ch.usi.inf.mwc.cusi.networking
 
 import ch.usi.inf.mwc.cusi.model.*
+import ch.usi.inf.mwc.cusi.utils.getJsonObject
 import ch.usi.inf.mwc.cusi.utils.getLocalizedString
 import ch.usi.inf.mwc.cusi.utils.map
+import kotlinx.coroutines.*
 import kotlinx.coroutines.Dispatchers.Default
-import kotlinx.coroutines.withContext
 import org.json.JSONObject
 import java.net.URL
 import java.util.*
@@ -14,31 +15,34 @@ object UsiServices {
     private const val GET_FACULTIES_URL = "https://search.usi.ch/api/faculties"
     private const val GET_COURSES_URL = "https://search.usi.ch/api/faculties/%d/courses"
 
-    suspend fun getCampusesWithFaculties(): List<CampusWithFaculties> = withContext(Default) {
-        val res = getJsonObject(URL(GET_FACULTIES_URL))
-        val data = res.getJSONArray("data")
-        data.map {
-            val campus = it.getJSONObject("campus").let { campus ->
-                Campus(
-                    campusId = campus.getInt("id"),
-                    name = campus.getString("name"),
+    private val scope = CoroutineScope(Default) + CoroutineName("UsiServices")
+
+    suspend fun getCampusesWithFaculties(): List<CampusWithFaculties> =
+        withContext(scope.coroutineContext) {
+            val res = getJsonObject(URL(GET_FACULTIES_URL))
+            val data = res.getJSONArray("data")
+            data.map {
+                val campus = it.getJSONObject("campus").let { campus ->
+                    Campus(
+                        campusId = campus.getInt("id"),
+                        name = campus.getString("name"),
+                    )
+                }
+                val faculty = Faculty(
+                    facultyId = it.getInt("id"),
+                    name = it.getLocalizedString("name"),
+                    acronym = it.getString("acronym"),
+                    campusId = campus.campusId,
+                    url = URL(it.getLocalizedString("url")),
                 )
-            }
-            val faculty = Faculty(
-                facultyId = it.getInt("id"),
-                name = it.getLocalizedString("name"),
-                acronym = it.getString("acronym"),
-                campusId = campus.campusId,
-                url = URL(it.getLocalizedString("url")),
-            )
-            campus to faculty
-        }.groupBy({ it.first }) { it.second }
-            .entries
-            .map { CampusWithFaculties(it.key, it.value) }
-    }
+                campus to faculty
+            }.groupBy({ it.first }) { it.second }
+                .entries
+                .map { CampusWithFaculties(it.key, it.value) }
+        }
 
     suspend fun getCoursesByFaculty(faculty: Faculty): List<CourseWithLecturers> =
-        withContext(Default) {
+        withContext(scope.coroutineContext) {
             val url = URL(GET_COURSES_URL.format(faculty.facultyId))
             val res = getJsonObject(url)
             val data = res.getJSONArray("data").map {
@@ -46,15 +50,17 @@ object UsiServices {
                     .getJSONArray("data")
                     .map { cl ->
                         val person = cl.getJSONObject("person")
+                        val firstName = person.getString("first_name")
+                        val lastName = person.getString("last_name")
                         val email = person.getArrayString("emails", 0)
                         val id = if (person.has("id"))
                             person.getString("id")
                         else
-                            UUID.randomUUID().toString() // Here you go
+                            UUID.fromString("$lastName $firstName").toString() // Here you go
                         Lecturer(
                             lecturerId = id,
-                            firstName = person.getString("first_name"),
-                            lastName = person.getString("last_name"),
+                            firstName = firstName,
+                            lastName = lastName,
                             email = email,
                         )
                     }
