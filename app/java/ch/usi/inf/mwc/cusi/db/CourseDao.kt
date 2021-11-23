@@ -1,14 +1,17 @@
 package ch.usi.inf.mwc.cusi.db
 
 import androidx.room.*
+import ch.usi.inf.mwc.cusi.db.model.CourseLecturerCrossRef
 import ch.usi.inf.mwc.cusi.model.Course
 import ch.usi.inf.mwc.cusi.model.CourseInfo
-import ch.usi.inf.mwc.cusi.model.CourseWithLecturers
 
 @Dao
 interface CourseDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(courseInfo: CourseInfo)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertCrossRef(courseLecturerCrossRef: CourseLecturerCrossRef)
 
     @Query("SELECT * FROM CourseInfo WHERE facultyId = :facultyId")
     @Transaction

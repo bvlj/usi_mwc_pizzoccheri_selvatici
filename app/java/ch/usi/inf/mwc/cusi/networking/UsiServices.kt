@@ -56,6 +56,7 @@ object UsiServices {
                         val firstName = person.getString("first_name")
                         val lastName = person.getString("last_name")
                         val email = person.getArrayString("emails", 0)
+                        val phoneNumber = person.getArrayString("phoneNumbers", 0)
                         val id = if (person.has("id"))
                             person.getString("id")
                         else
@@ -69,6 +70,7 @@ object UsiServices {
                             firstName = firstName,
                             lastName = lastName,
                             email = email,
+                            phoneNumber = phoneNumber,
                         )
                     }
                 val course = CourseInfo(

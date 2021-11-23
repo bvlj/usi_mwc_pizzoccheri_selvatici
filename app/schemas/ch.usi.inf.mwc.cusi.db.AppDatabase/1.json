@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "c4cf6eb4d45e5f8fd82b3aa57782ff9c",
+    "identityHash": "618229f00d48324ae3a6d3eaef6d8f90",
     "entities": [
       {
         "tableName": "Campus",
@@ -142,7 +142,16 @@
           ],
           "autoGenerate": false
         },
-        "indices": [],
+        "indices": [
+          {
+            "name": "index_CourseLecturerCrossRef_lecturerId",
+            "unique": false,
+            "columnNames": [
+              "lecturerId"
+            ],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_CourseLecturerCrossRef_lecturerId` ON `${TABLE_NAME}` (`lecturerId`)"
+          }
+        ],
         "foreignKeys": []
       },
       {
@@ -299,7 +308,7 @@
       },
       {
         "tableName": "Lecturer",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`lecturerId` TEXT NOT NULL, `firstName` TEXT NOT NULL, `lastName` TEXT NOT NULL, `email` TEXT NOT NULL, PRIMARY KEY(`lecturerId`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`lecturerId` TEXT NOT NULL, `firstName` TEXT NOT NULL, `lastName` TEXT NOT NULL, `email` TEXT NOT NULL, `phoneNumber` TEXT NOT NULL, PRIMARY KEY(`lecturerId`))",
         "fields": [
           {
             "fieldPath": "lecturerId",
@@ -322,6 +331,12 @@
           {
             "fieldPath": "email",
             "columnName": "email",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "phoneNumber",
+            "columnName": "phoneNumber",
             "affinity": "TEXT",
             "notNull": true
           }
@@ -349,7 +364,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'c4cf6eb4d45e5f8fd82b3aa57782ff9c')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '618229f00d48324ae3a6d3eaef6d8f90')"
     ]
   }
 }

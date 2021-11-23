@@ -32,6 +32,8 @@ abstract class AppDatabase : RoomDatabase() {
 
     abstract fun lecturers(): LecturerDao
 
+    abstract fun lectures(): LectureDao
+
     companion object : SingletonHolder<AppDatabase, Context>({
         if (AppDatabase.DEBUG) {
             Room.inMemoryDatabaseBuilder(
