@@ -8,12 +8,15 @@ import kotlinx.coroutines.*
 import kotlinx.coroutines.Dispatchers.Default
 import org.json.JSONObject
 import java.net.URL
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 import java.util.*
 
 @Suppress("BlockingMethodInNonBlockingContext")
 object UsiServices {
     private const val GET_FACULTIES_URL = "https://search.usi.ch/api/faculties"
     private const val GET_COURSES_URL = "https://search.usi.ch/api/faculties/%d/courses"
+    private const val GET_SCHEDULES_URL = "https://search.usi.ch/api/courses/%d/schedules"
 
     private val scope = CoroutineScope(Default) + CoroutineName("UsiServices")
 
@@ -45,7 +48,7 @@ object UsiServices {
         withContext(scope.coroutineContext) {
             val url = URL(GET_COURSES_URL.format(faculty.facultyId))
             val res = getJsonObject(url)
-            val data = res.getJSONArray("data").map {
+            res.getJSONArray("data").map {
                 val lecturers: List<Lecturer> = it.getJSONObject("lecturers")
                     .getJSONArray("data")
                     .map { cl ->
@@ -56,7 +59,11 @@ object UsiServices {
                         val id = if (person.has("id"))
                             person.getString("id")
                         else
-                            UUID.fromString("$lastName $firstName").toString() // Here you go
+                            UUID.nameUUIDFromBytes(
+                                // Seed the uuid with the person's name for
+                                // reproducible uuids
+                                "$lastName$firstName".encodeToByteArray()
+                            ).toString()
                         Lecturer(
                             lecturerId = id,
                             firstName = firstName,
@@ -76,8 +83,34 @@ object UsiServices {
                     lecturers = lecturers,
                 )
             }
-            data
         }
+
+    suspend fun getCourseWithLectures(
+        courseWithLecturers: CourseWithLecturers,
+    ): Course = withContext(scope.coroutineContext) {
+        val courseInfo = courseWithLecturers.info
+        val url = URL(GET_SCHEDULES_URL.format(courseInfo.courseId))
+        val res = getJsonObject(url)
+        val lectures = res.getJSONArray("data").map {
+            val start = it.getDateTime("start")
+            val end = it.getDateTime("end")
+            val place = it.getJSONObject("place")
+            val lectureLocation = LectureLocation(
+                room = place.getString("office"),
+                address = place.getJSONObject("building").getString("address"),
+            )
+            Lecture(
+                start = start,
+                end = end,
+                courseId = courseInfo.courseId,
+                lectureLocation = lectureLocation,
+            )
+        }
+        Course(
+            courseWithLecturers = courseWithLecturers,
+            lectures = lectures,
+        )
+    }
 
     private fun JSONObject.getArrayString(
         key: String,
@@ -94,6 +127,14 @@ object UsiServices {
         } else {
             defaultVal
         }
+    }
+
+    private fun JSONObject.getDateTime(key: String): LocalDateTime {
+        return LocalDateTime.from(
+            DateTimeFormatter.ISO_DATE_TIME.parse(
+                getString(key)
+            )
+        )
     }
 }
 
