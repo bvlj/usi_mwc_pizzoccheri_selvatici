@@ -36,7 +36,7 @@ class SyncInfoStorage(context: Context) {
         const val KEY_LAST_SYNC = "last_sync_date_time"
         const val KEY_SYNC_FREQ = "sync_freq"
         const val VAL_SYNC_FREQ_NEVER = -1
-        const val VAL_SYNC_FREQ_DEFAULT = 3 // Days
+        const val VAL_SYNC_FREQ_DEFAULT = 0 // Days
 
         val NEVER_SYNCED_DATE: LocalDate = LocalDate.of(1970, 1, 1)
     }

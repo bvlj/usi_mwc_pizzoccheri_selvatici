@@ -6,7 +6,7 @@ import ch.usi.inf.mwc.cusi.networking.sync.AppDataSync
 
 class MainViewModel(app: Application) : AndroidViewModel(app) {
 
-    suspend fun sync() {
+    suspend fun manualSync() {
         AppDataSync.fetchInfo(getApplication())
     }
 }
