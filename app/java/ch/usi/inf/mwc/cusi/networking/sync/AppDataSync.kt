@@ -26,7 +26,7 @@ object AppDataSync {
                     database.faculties().insert(faculty)
 
                     UsiServices.getCoursesByFaculty(faculty).forEach { courseWithLecturers ->
-                        database.course().insert(courseWithLecturers.info)
+                        database.course().insertRetainingHasEnrolled(courseWithLecturers.info)
 
                         courseWithLecturers.lecturers.forEach { lecturer ->
                             database.lecturers().insert(lecturer)

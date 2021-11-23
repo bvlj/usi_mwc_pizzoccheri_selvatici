@@ -24,4 +24,15 @@ interface CourseDao {
     @Query("SELECT * FROM CourseInfo WHERE courseId = :courseId LIMIT 1")
     @Transaction
     suspend fun getCourse(courseId: Int): Course?
+
+    @Query("SELECT hasEnrolled FROM CourseInfo WHERE courseId = :courseId LIMIT 1")
+    suspend fun hasEnrolled(courseId: Int): Boolean?
+
+    suspend fun insertRetainingHasEnrolled(courseInfo: CourseInfo) {
+        when (hasEnrolled(courseInfo.courseId)) {
+            true -> insert(courseInfo.copy(hasEnrolled = true))
+            false,
+            null -> insert(courseInfo)
+        }
+    }
 }
