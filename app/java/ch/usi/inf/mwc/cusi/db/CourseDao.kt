@@ -1,9 +1,12 @@
 package ch.usi.inf.mwc.cusi.db
 
+import androidx.lifecycle.LiveData
 import androidx.room.*
 import ch.usi.inf.mwc.cusi.db.model.CourseLecturerCrossRef
 import ch.usi.inf.mwc.cusi.model.Course
 import ch.usi.inf.mwc.cusi.model.CourseInfo
+import ch.usi.inf.mwc.cusi.model.CourseWithLecturers
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface CourseDao {
@@ -20,6 +23,14 @@ interface CourseDao {
     @Query("SELECT * FROM CourseInfo WHERE hasEnrolled = 1")
     @Transaction
     suspend fun getEnrolled(): List<Course>
+
+    @Query("SELECT * FROM CourseInfo")
+    @Transaction
+    fun getAll(): List<CourseWithLecturers>
+
+    @Query("SELECT * FROM CourseInfo")
+    @Transaction
+    fun getLiveAll(): LiveData<List<CourseWithLecturers>>
 
     @Query("SELECT * FROM CourseInfo WHERE courseId = :courseId LIMIT 1")
     @Transaction
