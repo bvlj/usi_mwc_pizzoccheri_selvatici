@@ -14,6 +14,7 @@ import ch.usi.inf.mwc.cusi.R
 import ch.usi.inf.mwc.cusi.courses.CoursesActivity
 import ch.usi.inf.mwc.cusi.networking.sync.CoreDataSyncWorker
 import ch.usi.inf.mwc.cusi.networking.sync.SyncInfoStorage
+import ch.usi.inf.mwc.cusi.schedule.ScheduleActivity
 import kotlinx.coroutines.launch
 import java.time.Duration
 
@@ -34,7 +35,7 @@ class MainActivity : ComponentActivity() {
             startActivity(Intent(this, CoursesActivity::class.java))
         }
         enrolledCoursesBtn.setOnClickListener {
-            TODO()
+            startActivity(Intent(this, ScheduleActivity::class.java))
         }
     }
 
