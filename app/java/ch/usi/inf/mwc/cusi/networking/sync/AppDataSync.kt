@@ -1,6 +1,7 @@
 package ch.usi.inf.mwc.cusi.networking.sync
 
 import android.content.Context
+import android.util.Log
 import ch.usi.inf.mwc.cusi.db.AppDatabase
 import ch.usi.inf.mwc.cusi.db.model.CourseLecturerCrossRef
 import ch.usi.inf.mwc.cusi.networking.UsiServices
@@ -16,17 +17,18 @@ object AppDataSync {
     suspend fun fetchInfo(context: Context) {
         withContext(scope.coroutineContext) {
             val database = AppDatabase.getInstance(context)
-            database.clearAllTables()
 
             // Fetch campuses
             UsiServices.getCampusesWithFaculties().forEach { campusWithFaculties ->
-                database.campuses().insert(campusWithFaculties.campus)
+                database.campuses().insertOrUpdateIfExists(campusWithFaculties.campus)
 
                 campusWithFaculties.faculties.forEach { faculty ->
-                    database.faculties().insert(faculty)
+                    database.faculties().insertOrUpdateIfExists(faculty)
 
                     UsiServices.getCoursesByFaculty(faculty).forEach { courseWithLecturers ->
-                        database.course().insertRetainingHasEnrolled(courseWithLecturers.info)
+
+                        val info =
+                            database.course().insertOrUpdateIfExists(courseWithLecturers.info)
 
                         courseWithLecturers.lecturers.forEach { lecturer ->
                             database.lecturers().insert(lecturer)
@@ -38,15 +40,15 @@ object AppDataSync {
                             )
                         }
 
-                        /*
-                         * TODO: we only want to download lectures iff the user enrolled
-                        UsiServices.getCourseWithLectures(courseWithLecturers).lectures.forEach { lecture ->
-                            database.lectures().insert(lecture)
+                        if (info.hasEnrolled) {
+                            UsiServices.getCourseWithLectures(courseWithLecturers).lectures.forEach { lecture ->
+                                database.lectures().insert(lecture)
+                            }
                         }
-                         */
                     }
                 }
             }
         }
+        Log.e("FINISHED", "Download")
     }
 }
