@@ -8,8 +8,8 @@
         android:allowBackup="false"
         android:appCategory="productivity"
         android:label="@string/app_label"
-        android:theme="@style/AppTheme"
-        android:supportsRtl="true">
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
 
         <activity
             android:name=".main.MainActivity"
@@ -24,11 +24,13 @@
 
         <activity
             android:name=".courses.AllCoursesActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:label="@string/label_all_courses" />
 
         <activity
             android:name=".schedule.ScheduleActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:label="@string/label_schedule"/>
 
         <activity
             android:name=".course.CourseDetailsActivity"

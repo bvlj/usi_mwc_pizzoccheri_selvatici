@@ -2,6 +2,9 @@
 <resources>
     <string name="app_label">Courses</string>
 
+    <string name="label_all_courses">All courses</string>
+    <string name="label_schedule">Schedule</string>
+
     <string name="course_details_action_unenroll">Unenroll</string>
     <string name="course_details_action_enroll">Enroll</string>
 </resources>
