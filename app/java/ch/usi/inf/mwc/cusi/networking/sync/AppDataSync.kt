@@ -12,10 +12,12 @@ import kotlinx.coroutines.plus
 import kotlinx.coroutines.withContext
 
 object AppDataSync {
+    private const val TAG = "AppDataSync"
     private val scope = CoroutineScope(IO) + CoroutineName("AppDataSync")
 
     suspend fun fetchInfo(context: Context) {
         withContext(scope.coroutineContext) {
+            Log.d(TAG, "Starting app data sync")
             val database = AppDatabase.getInstance(context)
 
             // Fetch campuses
@@ -23,12 +25,14 @@ object AppDataSync {
                 database.campuses().insertOrUpdateIfExists(campusWithFaculties.campus)
 
                 campusWithFaculties.faculties.forEach { faculty ->
+                    Log.d(TAG, "Fetching courses of the ${faculty.acronym} faculty")
                     database.faculties().insertOrUpdateIfExists(faculty)
 
                     UsiServices.getCoursesByFaculty(faculty).forEach { courseWithLecturers ->
+                        Log.d(TAG, " - Course: ${courseWithLecturers.info.name}")
 
-                        val info =
-                            database.course().insertOrUpdateIfExists(courseWithLecturers.info)
+                        val info = database.course()
+                            .insertOrUpdateIfExists(courseWithLecturers.info)
 
                         courseWithLecturers.lecturers.forEach { lecturer ->
                             database.lecturers().insert(lecturer)
@@ -41,14 +45,15 @@ object AppDataSync {
                         }
 
                         if (info.hasEnrolled) {
-                            UsiServices.getCourseWithLectures(courseWithLecturers).lectures.forEach { lecture ->
-                                database.lectures().insert(lecture)
-                            }
+                            // Re-download lectures
+                            database.lectures().deleteAllOfCourse(info.courseId)
+                            UsiServices.getCourseWithLectures(courseWithLecturers).lectures
+                                .forEach { lecture -> database.lectures().insert(lecture) }
                         }
                     }
                 }
             }
         }
-        Log.e("FINISHED", "Download")
+        Log.d(TAG, "Done syncing")
     }
 }
