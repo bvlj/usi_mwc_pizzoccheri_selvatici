@@ -19,7 +19,6 @@ class AllCoursesAdapter(private val onCourseSelected: (Int) -> Unit) :
         diff.dispatchUpdatesTo(this)
     }
 
-
     override fun getItemCount(): Int {
         return data.size
     }

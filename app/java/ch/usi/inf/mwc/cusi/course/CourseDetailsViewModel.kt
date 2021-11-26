@@ -12,6 +12,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.map
 import ch.usi.inf.mwc.cusi.db.AppDatabase
+import ch.usi.inf.mwc.cusi.model.CourseInfo
 import ch.usi.inf.mwc.cusi.model.CourseWithLecturers
 
 
@@ -22,7 +23,8 @@ class CourseDetailsViewModel(app: Application) : AndroidViewModel(app) {
         return db.course().getCourse(courseId).map {
             CourseDetailsState(
                 courseName = it.info.name,
-                courseDescription = prepareDescription(it),
+                courseDescription = prepareDescription(it.info),
+                lecturers = it.lecturers,
                 hasEnrolled = it.info.hasEnrolled,
             )
         }
@@ -36,33 +38,10 @@ class CourseDetailsViewModel(app: Application) : AndroidViewModel(app) {
         }
     }
 
-    private fun prepareDescription(courseWithLecturers: CourseWithLecturers): CharSequence {
-        return SpannableStringBuilder().apply {
-            // TODO: handle localization
-            scale(1.25f) { bold { append("Description") } }
-            append('\n')
-            append(
-                HtmlCompat.fromHtml(
-                    courseWithLecturers.info.description,
-                    HtmlCompat.FROM_HTML_MODE_COMPACT
-                )
-            )
-            append('\n')
-            scale(1.25f) { bold { append("Lecturers") } }
-            append('\n')
-            courseWithLecturers.lecturers.forEach {
-                // TODO: add lecturer roles
-                inSpans(BulletSpan(4)) {
-                    append("${it.lastName} ${it.firstName} (${it.role})")
-                    if (it.email.isNotEmpty()) {
-                        append(" ${it.email}")
-                    }
-                    if (it.phoneNumber.isNotEmpty()) {
-                        append(" ${it.phoneNumber}")
-                    }
-                    append('\n')
-                }
-            }
-        }
+    private fun prepareDescription(course: CourseInfo): CharSequence {
+        return HtmlCompat.fromHtml(
+            course.description,
+            HtmlCompat.FROM_HTML_MODE_COMPACT
+        )
     }
 }

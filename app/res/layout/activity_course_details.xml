@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools">
+    android:layout_height="match_parent">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -16,10 +16,34 @@
             android:paddingVertical="8dp">
 
             <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/course_details_title_description"
+                android:textColor="?android:attr/textColorPrimary"
+                android:textSize="24sp"
+                android:textStyle="bold" />
+
+            <TextView
                 android:id="@+id/course_info"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                tools:text="Description\nLorem ipsum dolor\nLecturers:\n• Carzaniga Antonio\n• Nystrom Nate"/>
+                android:layout_marginTop="4dp"
+                tools:text="Description\nLorem ipsum dolor\nLecturers:\n• Carzaniga Antonio\n• Nystrom Nate" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@string/course_details_title_lecturers"
+                android:textColor="?android:attr/textColorPrimary"
+                android:textSize="24sp"
+                android:textStyle="bold" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/course_lecturers"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:listitem="@layout/item_lecturer" />
         </LinearLayout>
     </ScrollView>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
