@@ -56,7 +56,8 @@ object UsiServices {
                         val firstName = person.getString("first_name")
                         val lastName = person.getString("last_name")
                         val email = person.getArrayString("emails", 0)
-                        val phoneNumber = person.getArrayString("phoneNumbers", 0)
+                        val phoneNumber = person.getArrayString("phones", 0, "official")
+                        val role = cl.getJSONObject("role")
                         val id = if (person.has("id"))
                             person.getString("id")
                         else
@@ -71,6 +72,7 @@ object UsiServices {
                             lastName = lastName,
                             email = email,
                             phoneNumber = phoneNumber,
+                            role = role.getLocalizedString("name"),
                         )
                     }
                 val course = CourseInfo(
@@ -84,6 +86,9 @@ object UsiServices {
                     info = course,
                     lecturers = lecturers,
                 )
+            }.filter {
+                // Apparently, there exists courses with no name...
+                it.info.name.isNotBlank()
             }
         }
 
@@ -117,12 +122,23 @@ object UsiServices {
     private fun JSONObject.getArrayString(
         key: String,
         i: Int,
+        innerKey: String? = null,
         defaultVal: String = "",
     ): String {
         return if (has(key)) {
             val obj = getJSONObject(key)
             if (!obj.has("meta") || obj.getJSONObject("meta").getInt("count") > i) {
-                obj.getJSONArray("data").getString(i)
+                val arr = obj.getJSONArray("data")
+                if (innerKey == null) {
+                    arr.getString(i)
+                } else {
+                    val innerObj = arr.getJSONObject(i)
+                    if (innerObj.has(innerKey)) {
+                        innerObj.getString(innerKey)
+                    } else {
+                        defaultVal
+                    }
+                }
             } else {
                 defaultVal
             }

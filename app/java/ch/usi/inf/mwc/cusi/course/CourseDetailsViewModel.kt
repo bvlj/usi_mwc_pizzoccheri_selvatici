@@ -53,9 +53,12 @@ class CourseDetailsViewModel(app: Application) : AndroidViewModel(app) {
             courseWithLecturers.lecturers.forEach {
                 // TODO: add lecturer roles
                 inSpans(BulletSpan(4)) {
-                    append("${it.lastName} ${it.firstName}")
+                    append("${it.lastName} ${it.firstName} (${it.role})")
                     if (it.email.isNotEmpty()) {
-                        append(": ${it.email}")
+                        append(" ${it.email}")
+                    }
+                    if (it.phoneNumber.isNotEmpty()) {
+                        append(" ${it.phoneNumber}")
                     }
                     append('\n')
                 }

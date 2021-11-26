@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "618229f00d48324ae3a6d3eaef6d8f90",
+    "identityHash": "6f019eab686778653d7bfdd9f51d46a7",
     "entities": [
       {
         "tableName": "Campus",
@@ -308,7 +308,7 @@
       },
       {
         "tableName": "Lecturer",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`lecturerId` TEXT NOT NULL, `firstName` TEXT NOT NULL, `lastName` TEXT NOT NULL, `email` TEXT NOT NULL, `phoneNumber` TEXT NOT NULL, PRIMARY KEY(`lecturerId`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`lecturerId` TEXT NOT NULL, `firstName` TEXT NOT NULL, `lastName` TEXT NOT NULL, `email` TEXT NOT NULL, `phoneNumber` TEXT NOT NULL, `role` TEXT NOT NULL, PRIMARY KEY(`lecturerId`))",
         "fields": [
           {
             "fieldPath": "lecturerId",
@@ -339,6 +339,12 @@
             "columnName": "phoneNumber",
             "affinity": "TEXT",
             "notNull": true
+          },
+          {
+            "fieldPath": "role",
+            "columnName": "role",
+            "affinity": "TEXT",
+            "notNull": true
           }
         ],
         "primaryKey": {
@@ -364,7 +370,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '618229f00d48324ae3a6d3eaef6d8f90')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '6f019eab686778653d7bfdd9f51d46a7')"
     ]
   }
 }
