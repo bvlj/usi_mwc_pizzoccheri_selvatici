@@ -12,7 +12,7 @@ import ch.usi.inf.mwc.cusi.networking.sync.AppDataSync
 import kotlinx.coroutines.Dispatchers.Default
 import kotlinx.coroutines.withContext
 
-class CoursesViewModel(app: Application) : AndroidViewModel(app) {
+class AllCoursesViewModel(app: Application) : AndroidViewModel(app) {
 
     suspend fun manualSync() {
         AppDataSync.fetchInfo(getApplication())

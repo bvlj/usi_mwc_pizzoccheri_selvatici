@@ -21,10 +21,14 @@
         </activity>
 
         <activity
-            android:name=".courses.CoursesActivity"
+            android:name=".courses.AllCoursesActivity"
             android:exported="false" />
         <activity
             android:name=".schedule.ScheduleActivity"
             android:exported="false" />
+        <activity
+            android:name=".course.CourseActivity"
+            android:exported="false"
+            />
     </application>
 </manifest>

@@ -1,21 +1,21 @@
 package ch.usi.inf.mwc.cusi.courses
 
-import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import androidx.activity.ComponentActivity
 import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import ch.usi.inf.mwc.cusi.R
+import ch.usi.inf.mwc.cusi.course.CourseActivity
 import kotlinx.coroutines.launch
 
-class CoursesActivity : ComponentActivity() {
+class AllCoursesActivity : ComponentActivity() {
 
-    private val viewModel: CoursesViewModel by viewModels()
+    private val viewModel: AllCoursesViewModel by viewModels()
 
     private lateinit var adapter: AllCoursesAdapter
 
@@ -24,7 +24,14 @@ class CoursesActivity : ComponentActivity() {
 
         setContentView(R.layout.activity_all_courses)
 
-        adapter = AllCoursesAdapter()
+        adapter = AllCoursesAdapter {
+            startActivity(
+                Intent(
+                    this,
+                    CourseActivity::class.java
+                ).putExtra(CourseActivity.EXTRA_COURSE_ID, it)
+            )
+        }
 
         val listView: RecyclerView = findViewById(R.id.courses_list)
         listView.adapter = adapter

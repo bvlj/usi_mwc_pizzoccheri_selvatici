@@ -31,19 +31,21 @@ interface CourseDao {
     @Transaction
     fun getAll(): List<CourseWithLecturers>
 
-    @Query("SELECT * FROM CourseInfo")
+    @Query("SELECT * FROM CourseInfo ORDER BY name")
     @Transaction
     fun getLiveAll(): LiveData<List<CourseWithLecturers>>
 
     @Query("SELECT * FROM CourseInfo WHERE courseId = :courseId LIMIT 1")
     @Transaction
-    suspend fun getCourse(courseId: Int): Course?
+    fun getCourse(courseId: Int): LiveData<CourseWithLecturers>
 
     @Query("SELECT * FROM CourseInfo WHERE courseId = :courseId LIMIT 1")
     suspend fun getCourseInfo(courseId: Int): CourseInfo?
 
     @Query("SELECT hasEnrolled FROM CourseInfo WHERE courseId = :courseId LIMIT 1")
     suspend fun hasEnrolled(courseId: Int): Boolean?
+
+
 
     @Transaction
     suspend fun insertOrUpdateIfExists(courseInfo: CourseInfo): CourseInfo{

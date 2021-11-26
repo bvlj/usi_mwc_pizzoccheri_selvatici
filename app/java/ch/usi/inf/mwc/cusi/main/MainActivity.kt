@@ -5,18 +5,15 @@ import android.os.Bundle
 import android.widget.Button
 import androidx.activity.ComponentActivity
 import androidx.activity.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.work.Constraints
 import androidx.work.NetworkType
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import ch.usi.inf.mwc.cusi.R
-import ch.usi.inf.mwc.cusi.courses.CoursesActivity
+import ch.usi.inf.mwc.cusi.courses.AllCoursesActivity
 import ch.usi.inf.mwc.cusi.networking.sync.CoreDataSyncWorker
 import ch.usi.inf.mwc.cusi.networking.sync.SyncInfoStorage
 import ch.usi.inf.mwc.cusi.schedule.ScheduleActivity
-import kotlinx.coroutines.launch
-import java.time.Duration
 
 class MainActivity : ComponentActivity() {
 
@@ -32,7 +29,7 @@ class MainActivity : ComponentActivity() {
         val enrolledCoursesBtn: Button = findViewById(R.id.enrolled_courses_btn)
 
         allCoursesBtn.setOnClickListener {
-            startActivity(Intent(this, CoursesActivity::class.java))
+            startActivity(Intent(this, AllCoursesActivity::class.java))
         }
         enrolledCoursesBtn.setOnClickListener {
             startActivity(Intent(this, ScheduleActivity::class.java))

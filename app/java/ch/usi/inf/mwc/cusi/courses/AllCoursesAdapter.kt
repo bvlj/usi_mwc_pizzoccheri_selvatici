@@ -9,7 +9,8 @@ import androidx.recyclerview.widget.RecyclerView
 import ch.usi.inf.mwc.cusi.R
 import ch.usi.inf.mwc.cusi.model.CourseWithLecturers
 
-class AllCoursesAdapter : RecyclerView.Adapter<AllCoursesAdapter.ViewHolder>() {
+class AllCoursesAdapter(private val onCourseSelected: (Int) -> Unit) :
+    RecyclerView.Adapter<AllCoursesAdapter.ViewHolder>() {
     private var data: List<CourseWithLecturers> = emptyList()
 
     fun setList(data: List<CourseWithLecturers>) {
@@ -18,22 +19,25 @@ class AllCoursesAdapter : RecyclerView.Adapter<AllCoursesAdapter.ViewHolder>() {
         diff.dispatchUpdatesTo(this)
     }
 
+
     override fun getItemCount(): Int {
         return data.size
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder(LayoutInflater.from(parent.context)
-            .inflate(R.layout.item_course_info, parent, false))
+        return ViewHolder(
+            LayoutInflater.from(parent.context)
+                .inflate(R.layout.item_course_info, parent, false)
+        )
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.setContent(data[position])
+        holder.setContent(data[position], onCourseSelected)
     }
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
-        fun setContent(course: CourseWithLecturers) {
+        fun setContent(course: CourseWithLecturers, onCourseSelected: (Int) -> Unit) {
             val nameView: TextView = itemView.findViewById(R.id.course_name)
             val lecturersView: TextView = itemView.findViewById(R.id.course_lecturers)
 
@@ -41,6 +45,10 @@ class AllCoursesAdapter : RecyclerView.Adapter<AllCoursesAdapter.ViewHolder>() {
             lecturersView.text = course.lecturers.map {
                 "${it.lastName} ${it.firstName[0]}."
             }.joinToString(", ")
+
+            itemView.setOnClickListener {
+                onCourseSelected(course.info.courseId)
+            }
         }
     }
 
