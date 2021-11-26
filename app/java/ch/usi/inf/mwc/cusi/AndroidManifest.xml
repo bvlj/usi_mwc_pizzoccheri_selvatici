@@ -8,6 +8,7 @@
         android:allowBackup="false"
         android:appCategory="productivity"
         android:label="@string/app_label"
+        android:theme="@style/AppTheme"
         android:supportsRtl="true">
 
         <activity

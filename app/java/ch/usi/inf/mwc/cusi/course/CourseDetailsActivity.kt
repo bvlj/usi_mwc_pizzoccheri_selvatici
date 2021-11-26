@@ -6,11 +6,12 @@ import android.view.MenuItem
 import android.widget.TextView
 import androidx.activity.ComponentActivity
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import ch.usi.inf.mwc.cusi.R
 import kotlinx.coroutines.launch
 
-class CourseDetailsActivity : ComponentActivity() {
+class CourseDetailsActivity : AppCompatActivity() {
 
     private val viewModel: CourseDetailsViewModel by viewModels()
 
@@ -26,6 +27,11 @@ class CourseDetailsActivity : ComponentActivity() {
 
         setContentView(R.layout.activity_course_details)
         descriptionView = findViewById(R.id.course_info)
+
+        supportActionBar?.apply {
+            setDisplayHomeAsUpEnabled(true)
+            setDisplayShowHomeEnabled(true)
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -37,13 +43,17 @@ class CourseDetailsActivity : ComponentActivity() {
         return true
     }
 
-    override fun onMenuItemSelected(featureId: Int, item: MenuItem): Boolean {
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.menu_enroll_button -> {
                 lifecycleScope.launch { viewModel.invertEnroll(courseId) }
                 true
             }
-            else -> super.onMenuItemSelected(featureId, item)
+            android.R.id.home -> {
+                onBackPressed()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
         }
     }
 

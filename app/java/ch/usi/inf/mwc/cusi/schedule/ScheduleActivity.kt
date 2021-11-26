@@ -3,6 +3,7 @@ package ch.usi.inf.mwc.cusi.schedule
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -10,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import ch.usi.inf.mwc.cusi.R
 import kotlinx.coroutines.launch
 
-class ScheduleActivity : ComponentActivity(){
+class ScheduleActivity : AppCompatActivity() {
     private val viewModel: ScheduleViewModel by viewModels()
 
     private lateinit var adapter: ScheduleAdapter
@@ -27,9 +28,7 @@ class ScheduleActivity : ComponentActivity(){
         listView.layoutManager = LinearLayoutManager(this)
         listView.itemAnimator = DefaultItemAnimator()
 
-
-
-        lifecycleScope.launch{
+        lifecycleScope.launch {
             adapter.setList(viewModel.getTodaySchedule())
         }
     }

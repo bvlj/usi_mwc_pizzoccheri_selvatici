@@ -2,9 +2,10 @@ package ch.usi.inf.mwc.cusi.courses
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.MenuItem
 import android.widget.Button
-import androidx.activity.ComponentActivity
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -13,7 +14,7 @@ import ch.usi.inf.mwc.cusi.R
 import ch.usi.inf.mwc.cusi.course.CourseDetailsActivity
 import kotlinx.coroutines.launch
 
-class AllCoursesActivity : ComponentActivity() {
+class AllCoursesActivity : AppCompatActivity() {
 
     private val viewModel: AllCoursesViewModel by viewModels()
 
@@ -45,6 +46,21 @@ class AllCoursesActivity : ComponentActivity() {
             }
         }
 
+        supportActionBar?.apply {
+            setDisplayHomeAsUpEnabled(true)
+            setDisplayShowHomeEnabled(true)
+        }
+
         viewModel.getAllCourses().observe(this) { newList -> adapter.setList(newList) }
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            android.R.id.home -> {
+                onBackPressed()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 }

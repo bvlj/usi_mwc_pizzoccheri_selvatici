@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.widget.Button
 import androidx.activity.ComponentActivity
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import androidx.work.Constraints
 import androidx.work.NetworkType
 import androidx.work.OneTimeWorkRequestBuilder
@@ -15,7 +16,7 @@ import ch.usi.inf.mwc.cusi.networking.sync.CoreDataSyncWorker
 import ch.usi.inf.mwc.cusi.networking.sync.SyncInfoStorage
 import ch.usi.inf.mwc.cusi.schedule.ScheduleActivity
 
-class MainActivity : ComponentActivity() {
+class MainActivity : AppCompatActivity() {
 
     private val viewModel: MainViewModel by viewModels()
 
