@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import ch.usi.inf.mwc.cusi.R
-import ch.usi.inf.mwc.cusi.course.CourseActivity
+import ch.usi.inf.mwc.cusi.course.CourseDetailsActivity
 import kotlinx.coroutines.launch
 
 class AllCoursesActivity : ComponentActivity() {
@@ -28,8 +28,8 @@ class AllCoursesActivity : ComponentActivity() {
             startActivity(
                 Intent(
                     this,
-                    CourseActivity::class.java
-                ).putExtra(CourseActivity.EXTRA_COURSE_ID, it)
+                    CourseDetailsActivity::class.java
+                ).putExtra(CourseDetailsActivity.EXTRA_COURSE_ID, it)
             )
         }
 

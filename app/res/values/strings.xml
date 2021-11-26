@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_label">Courses</string>
-    <string name="menu_unenroll">UNENROLL</string>
-    <string name="menu_enroll">ENROLL</string>
+
+    <string name="course_details_action_unenroll">Unenroll</string>
+    <string name="course_details_action_enroll">Enroll</string>
 </resources>
