@@ -3,13 +3,13 @@ package ch.usi.inf.mwc.cusi.courses
 import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
-import android.widget.Button
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import ch.usi.inf.mwc.cusi.R
 import ch.usi.inf.mwc.cusi.course.CourseDetailsActivity
 import kotlinx.coroutines.launch
@@ -39,10 +39,12 @@ class AllCoursesActivity : AppCompatActivity() {
         listView.layoutManager = LinearLayoutManager(this)
         listView.itemAnimator = DefaultItemAnimator()
 
-        val refreshBtn: Button = findViewById(R.id.test)
-        refreshBtn.setOnClickListener {
+        val refreshLayout: SwipeRefreshLayout = findViewById(R.id.courses_refresh)
+        refreshLayout.setOnRefreshListener {
             lifecycleScope.launch {
+                refreshLayout.isRefreshing = true
                 viewModel.manualSync()
+                refreshLayout.isRefreshing = false
             }
         }
 
