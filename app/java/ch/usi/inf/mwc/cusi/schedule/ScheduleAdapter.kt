@@ -46,7 +46,7 @@ class ScheduleAdapter : RecyclerView.Adapter<ScheduleAdapter.ViewHolder>() {
 
             nameView.text = lectureInfo.second.name
 
-            val time = DateTimeFormatter.ofPattern("hh:mm").run {
+            val time = DateTimeFormatter.ofPattern("HH:mm").run {
                 format(lectureInfo.first.start) + "-"  + format(lectureInfo.first.end)
             }
 
