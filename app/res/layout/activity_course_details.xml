@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -8,43 +9,99 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:paddingHorizontal="16dp"
-            android:paddingVertical="8dp">
+            android:paddingTop="8dp"
+            android:paddingBottom="72dp">
 
             <TextView
-                android:layout_width="match_parent"
+                android:id="@+id/course_title"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="@string/course_details_title_description"
+                android:maxLines="2"
                 android:textColor="?android:attr/textColorPrimary"
                 android:textSize="24sp"
-                android:textStyle="bold" />
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Course title" />
+
+            <TextView
+                android:id="@+id/course_header_description"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:paddingTop="16dp"
+                android:text="@string/course_details_title_description"
+                android:textColor="?android:attr/textColorPrimary"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/course_title" />
 
             <TextView
                 android:id="@+id/course_info"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
+                android:layout_height="0dp"
+                android:layout_marginStart="56dp"
+                android:paddingTop="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/course_header_description"
                 tools:text="Description\nLorem ipsum dolor\nLecturers:\n• Carzaniga Antonio\n• Nystrom Nate" />
 
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@null"
+                android:paddingTop="8dp"
+                android:src="@drawable/ic_info"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/course_info" />
+
             <TextView
+                android:id="@+id/course_header_lecturers"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
+                android:paddingTop="16dp"
                 android:text="@string/course_details_title_lecturers"
                 android:textColor="?android:attr/textColorPrimary"
-                android:textSize="24sp"
-                android:textStyle="bold" />
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/course_info" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/course_lecturers"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="56dp"
                 android:nestedScrollingEnabled="false"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/course_header_lecturers"
                 tools:listitem="@layout/item_lecturer" />
-        </LinearLayout>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@null"
+                android:paddingTop="8dp"
+                android:src="@drawable/ic_lecturer"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/course_lecturers" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
+
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:id="@+id/course_enroll_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center_horizontal"
+        android:layout_margin="16dp"
+        android:textColor="?colorAccent"
+        app:backgroundTint="?colorSurface"
+        app:icon="@drawable/ic_unenrolled"
+        app:iconTint="?colorAccent"
+        tools:text="@string/course_details_action_enroll" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

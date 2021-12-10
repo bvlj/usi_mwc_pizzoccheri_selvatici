@@ -13,15 +13,17 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import ch.usi.inf.mwc.cusi.R
+import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
 import kotlinx.coroutines.launch
 
 class CourseDetailsActivity : AppCompatActivity() {
 
     private val viewModel: CourseDetailsViewModel by viewModels()
 
-    private lateinit var enrollButton: MenuItem
+    private lateinit var titleView: TextView
     private lateinit var descriptionView: TextView
     private lateinit var lecturersListView: RecyclerView
+    private lateinit var enrollButton: ExtendedFloatingActionButton
 
     private lateinit var lecturersAdapter: LecturersAdapter
 
@@ -33,8 +35,10 @@ class CourseDetailsActivity : AppCompatActivity() {
         courseId = intent.getIntExtra(EXTRA_COURSE_ID, -1)
 
         setContentView(R.layout.activity_course_details)
+        titleView = findViewById(R.id.course_title)
         descriptionView = findViewById(R.id.course_info)
         lecturersListView = findViewById(R.id.course_lecturers)
+        enrollButton = findViewById(R.id.course_enroll_btn)
 
         lecturersAdapter = LecturersAdapter(
             onCallLecturer = this::callLecturer,
@@ -45,28 +49,20 @@ class CourseDetailsActivity : AppCompatActivity() {
             layoutManager = LinearLayoutManager(this@CourseDetailsActivity)
             itemAnimator = DefaultItemAnimator()
         }
+        enrollButton.setOnClickListener {
+            lifecycleScope.launch { viewModel.invertEnroll(courseId) }
+        }
 
         supportActionBar?.apply {
             setDisplayHomeAsUpEnabled(true)
             setDisplayShowHomeEnabled(true)
         }
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.enroll_menu, menu)
-        enrollButton = menu.findItem(R.id.menu_enroll_button)
 
         fetchContent()
-
-        return true
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
-            R.id.menu_enroll_button -> {
-                lifecycleScope.launch { viewModel.invertEnroll(courseId) }
-                true
-            }
             android.R.id.home -> {
                 onBackPressed()
                 true
@@ -77,16 +73,15 @@ class CourseDetailsActivity : AppCompatActivity() {
 
     private fun fetchContent() {
         viewModel.getCourseWithLecturers(courseId).observe(this) {
-            supportActionBar?.title = it.courseName
-
+            titleView.text = it.courseName
             descriptionView.text = it.courseDescription
 
             if (it.hasEnrolled) {
-                enrollButton.setIcon(R.drawable.ic_enrolled)
-                enrollButton.setTitle(R.string.course_details_action_unenroll)
+                enrollButton.setIconResource(R.drawable.ic_enrolled)
+                enrollButton.setText(R.string.course_details_action_unenroll)
             } else {
-                enrollButton.setIcon(R.drawable.ic_unenrolled)
-                enrollButton.setTitle(R.string.course_details_action_enroll)
+                enrollButton.setIconResource(R.drawable.ic_unenrolled)
+                enrollButton.setText(R.string.course_details_action_enroll)
             }
 
             lecturersAdapter.setData(it.lecturers)
