@@ -42,8 +42,8 @@
 
             <TextView
                 android:id="@+id/course_info"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="56dp"
                 android:paddingTop="8dp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -99,9 +99,9 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|center_horizontal"
         android:layout_margin="16dp"
+        android:text="@string/course_details_action_enroll"
         android:textColor="?colorAccent"
         app:backgroundTint="?colorSurface"
         app:icon="@drawable/ic_unenrolled"
-        app:iconTint="?colorAccent"
-        tools:text="@string/course_details_action_enroll" />
+        app:iconTint="?colorAccent" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

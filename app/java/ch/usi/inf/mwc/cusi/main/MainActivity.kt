@@ -1,40 +1,52 @@
 package ch.usi.inf.mwc.cusi.main
 
-import android.content.Intent
 import android.os.Bundle
-import android.widget.Button
-import androidx.activity.ComponentActivity
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.NavController
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.setupActionBarWithNavController
+import androidx.navigation.ui.setupWithNavController
 import androidx.work.Constraints
 import androidx.work.NetworkType
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import ch.usi.inf.mwc.cusi.R
-import ch.usi.inf.mwc.cusi.courses.AllCoursesActivity
 import ch.usi.inf.mwc.cusi.networking.sync.CoreDataSyncWorker
 import ch.usi.inf.mwc.cusi.networking.sync.SyncInfoStorage
-import ch.usi.inf.mwc.cusi.schedule.ScheduleActivity
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {
 
-    private val viewModel: MainViewModel by viewModels()
+    private lateinit var navController: NavController
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         setContentView(R.layout.activity_main)
+
+        val navHostFragment = supportFragmentManager.findFragmentById(
+            R.id.nav_host_container
+        ) as NavHostFragment
+        navController = navHostFragment.navController
+
+        val appBarConfiguration = AppBarConfiguration(
+            setOf(
+                R.id.allCoursesFragment,
+                R.id.scheduleFragment,
+                R.id.preferencesFragment,
+            )
+        )
+        setupActionBarWithNavController(navController, appBarConfiguration)
+
+        val bottomBar: BottomNavigationView = findViewById(R.id.bottom_nav)
+        bottomBar.setupWithNavController(navController)
+
         syncCoreDataIfNeed()
+    }
 
-        val allCoursesBtn: Button = findViewById(R.id.all_courses_btn)
-        val enrolledCoursesBtn: Button = findViewById(R.id.enrolled_courses_btn)
-
-        allCoursesBtn.setOnClickListener {
-            startActivity(Intent(this, AllCoursesActivity::class.java))
-        }
-        enrolledCoursesBtn.setOnClickListener {
-            startActivity(Intent(this, ScheduleActivity::class.java))
-        }
+    override fun onSupportNavigateUp(): Boolean {
+        return navController.navigateUp()
     }
 
     private fun syncCoreDataIfNeed() {

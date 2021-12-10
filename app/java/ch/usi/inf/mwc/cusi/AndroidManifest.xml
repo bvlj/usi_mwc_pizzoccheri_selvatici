@@ -23,17 +23,7 @@
         </activity>
 
         <activity
-            android:name=".courses.AllCoursesActivity"
-            android:exported="false"
-            android:label="@string/label_all_courses" />
-
-        <activity
-            android:name=".schedule.ScheduleActivity"
-            android:exported="false"
-            android:label="@string/label_schedule" />
-
-        <activity
-            android:name=".course.CourseDetailsActivity"
+            android:name=".course.CourseDetailsFragment"
             android:exported="false"
             android:label="@string/label_course_info" />
     </application>

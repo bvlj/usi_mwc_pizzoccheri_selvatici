@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_courses"
+    app:startDestination="@id/allCoursesFragment">
+
+    <fragment
+        android:id="@+id/allCoursesFragment"
+        android:name="ch.usi.inf.mwc.cusi.courses.AllCoursesFragment"
+        android:label="@string/label_all_courses">
+        <action
+            android:id="@+id/action_allCoursesFragment_to_courseDetailsFragment"
+            app:destination="@id/courseDetailsFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"
+            app:popUpTo="@id/allCoursesFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/courseDetailsFragment"
+        android:name="ch.usi.inf.mwc.cusi.course.CourseDetailsFragment"
+        android:label="@string/label_course_info">
+        <argument
+            android:name="courseId"
+            android:defaultValue="-1"
+            app:argType="integer" />
+    </fragment>
+</navigation>
