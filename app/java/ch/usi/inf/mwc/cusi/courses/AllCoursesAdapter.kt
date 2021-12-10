@@ -3,6 +3,7 @@ package ch.usi.inf.mwc.cusi.courses
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -39,11 +40,17 @@ class AllCoursesAdapter(private val onCourseSelected: (Int) -> Unit) :
         fun setContent(course: CourseWithLecturers, onCourseSelected: (Int) -> Unit) {
             val nameView: TextView = itemView.findViewById(R.id.course_name)
             val lecturersView: TextView = itemView.findViewById(R.id.course_lecturers)
+            val statusView: ImageView = itemView.findViewById(R.id.course_enroll_status)
 
             nameView.text = course.info.name
             lecturersView.text = course.lecturers.map {
                 "${it.lastName} ${it.firstName[0]}."
             }.joinToString(", ")
+            if (course.info.hasEnrolled) {
+                statusView.setImageResource(R.drawable.ic_enrolled)
+            } else {
+                statusView.setImageDrawable(null)
+            }
 
             itemView.setOnClickListener {
                 onCourseSelected(course.info.courseId)

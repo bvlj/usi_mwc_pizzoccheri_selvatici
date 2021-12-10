@@ -12,4 +12,6 @@
     <string name="course_details_title_lecturers">Lecturers</string>
     <string name="course_details_call_lecturer">Call %1$s</string>
     <string name="course_details_mail_lecturer">Email %1$s</string>
+    <string name="course_details_status_enrolled">Enrolled</string>
+    <string name="course_details_status_not_enrolled">Not enrolled</string>
 </resources>
