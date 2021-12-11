@@ -27,4 +27,5 @@ data class Faculty(
     val url: URL,
     val acronym: String,
     val campusId: Int,
+    val showCourses: Boolean,
 )

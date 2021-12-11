@@ -15,4 +15,16 @@
     <string name="course_details_mail_lecturer">Email %1$s</string>
     <string name="course_details_status_enrolled">Enrolled</string>
     <string name="course_details_status_not_enrolled">Not enrolled</string>
+
+    <string name="preference_faculties_title">Selected faculties</string>
+    <plurals name="preference_faculties_summary">
+        <item quantity="zero">Courses from all faculties will be shown</item>
+        <item quantity="one">Courses from the %1$s faculty will be shown</item>
+        <item quantity="many">Courses from the following faculties will be shown: %1$s</item>
+    </plurals>
+    <string name="preference_faculties_dialog_title">Faculties</string>
+    <string name="preference_faculties_dialog_message">Select which faculties you want courses to be shown</string>
+    <string name="preference_notification_title">Lecture notifications</string>
+    <string name="preference_notification_summary_on">You will be notified when a lecture is about to start</string>
+    <string name="preference_notification_summary_off">You will not be notified when a lecture is about to start</string>
 </resources>

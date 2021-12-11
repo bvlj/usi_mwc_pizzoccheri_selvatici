@@ -26,29 +26,31 @@ object AppDataSync {
 
                 campusWithFaculties.faculties.forEach { faculty ->
                     Log.d(TAG, "Fetching courses of the ${faculty.acronym} faculty")
-                    database.faculties().insertOrUpdateIfExists(faculty)
+                    val dbFaculty = database.faculties().insertOrUpdateIfExists(faculty)
 
-                    UsiServices.getCoursesByFaculty(faculty).forEach { courseWithLecturers ->
-                        Log.d(TAG, " - Course: ${courseWithLecturers.info.name}")
+                    if (dbFaculty.showCourses) {
+                        UsiServices.getCoursesByFaculty(dbFaculty).forEach { courseWithLecturers ->
+                            Log.d(TAG, " - Course: ${courseWithLecturers.info.name}")
 
-                        val info = database.course()
-                            .insertOrUpdateIfExists(courseWithLecturers.info)
+                            val info = database.course()
+                                .insertOrUpdateIfExists(courseWithLecturers.info)
 
-                        courseWithLecturers.lecturers.forEach { lecturer ->
-                            database.lecturers().insert(lecturer)
-                            database.course().insertCrossRef(
-                                CourseLecturerCrossRef(
-                                    courseId = courseWithLecturers.info.courseId,
-                                    lecturerId = lecturer.lecturerId,
+                            courseWithLecturers.lecturers.forEach { lecturer ->
+                                database.lecturers().insert(lecturer)
+                                database.course().insertCrossRef(
+                                    CourseLecturerCrossRef(
+                                        courseId = courseWithLecturers.info.courseId,
+                                        lecturerId = lecturer.lecturerId,
+                                    )
                                 )
-                            )
-                        }
+                            }
 
-                        if (info.hasEnrolled) {
-                            // Re-download lectures
-                            database.lectures().deleteAllOfCourse(info.courseId)
-                            UsiServices.getCourseWithLectures(courseWithLecturers).lectures
-                                .forEach { lecture -> database.lectures().insert(lecture) }
+                            if (info.hasEnrolled) {
+                                // Re-download lectures
+                                database.lectures().deleteAllOfCourse(info.courseId)
+                                UsiServices.getCourseWithLectures(courseWithLecturers).lectures
+                                    .forEach { lecture -> database.lectures().insert(lecture) }
+                            }
                         }
                     }
                 }

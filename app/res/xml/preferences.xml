@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <MultiSelectListPreference
+        android:dialogTitle="@string/preference_faculties_dialog_title"
+        android:key="key_selected_faculties"
+        android:title="@string/preference_faculties_title"
+        tools:summary="Courses from all the faculties will be shown" />
+
+    <SwitchPreference
+        android:defaultValue="false"
+        android:key="key_notifications"
+        android:summaryOff="@string/preference_notification_summary_off"
+        android:summaryOn="@string/preference_notification_summary_on"
+        android:title="@string/preference_notification_title" />
+</PreferenceScreen>

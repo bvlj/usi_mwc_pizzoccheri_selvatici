@@ -37,6 +37,7 @@ object UsiServices {
                     acronym = it.getString("acronym"),
                     campusId = campus.campusId,
                     url = URL(it.getLocalizedString("url")),
+                    showCourses = false,
                 )
                 campus to faculty
             }.groupBy({ it.first }) { it.second }
