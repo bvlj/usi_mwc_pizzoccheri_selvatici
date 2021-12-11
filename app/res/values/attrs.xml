@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Side header decorator -->
+    <declare-styleable name="SideHeader">
+        <attr name="android:width" />
+        <attr name="android:padding" />
+        <attr name="android:textColor" />
+        <attr name="primaryTextSize" format="dimension" />
+        <attr name="secondaryTextSize" format="dimension" />
+    </declare-styleable>
+</resources>

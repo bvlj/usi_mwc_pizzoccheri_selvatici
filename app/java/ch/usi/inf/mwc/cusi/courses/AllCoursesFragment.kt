@@ -14,6 +14,8 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import ch.usi.inf.mwc.cusi.R
 import ch.usi.inf.mwc.cusi.course.CourseDetailsFragment
+import ch.usi.inf.mwc.cusi.utils.removeItemDecorationByClass
+import ch.usi.inf.mwc.cusi.utils.ui.SideHeaderDecoration
 import kotlinx.coroutines.launch
 
 class AllCoursesFragment : Fragment() {
@@ -33,14 +35,7 @@ class AllCoursesFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        adapter = AllCoursesAdapter {
-            findNavController().navigate(
-                R.id.action_allCoursesFragment_to_courseDetailsFragment,
-                Bundle().apply {
-                    putInt(CourseDetailsFragment.EXTRA_COURSE_ID, it)
-                }
-            )
-        }
+        adapter = AllCoursesAdapter { openCourseInfo(it) }
 
         val listView: RecyclerView = view.findViewById(R.id.courses_list)
         listView.adapter = adapter
@@ -56,6 +51,27 @@ class AllCoursesFragment : Fragment() {
             }
         }
 
-        viewModel.getAllCourses().observe(this) { newList -> adapter.setList(newList) }
+        viewModel.getAllCourses().observe(this) { newList ->
+            val decorationData = newList.mapIndexed { i, it -> i to it.info.name.first() }
+                .distinctBy { it.second }
+                .map { it.first to (it.second.toString() to "") }
+                .toMap()
+
+            listView.apply {
+                removeItemDecorationByClass(SideHeaderDecoration::class.java)
+                addItemDecoration(SideHeaderDecoration(requireContext(), decorationData))
+            }
+
+            adapter.setList(newList)
+        }
+    }
+
+    private fun openCourseInfo(courseId: Int) {
+        findNavController().navigate(
+            R.id.action_allCoursesFragment_to_courseDetailsFragment,
+            Bundle().apply {
+                putInt(CourseDetailsFragment.EXTRA_COURSE_ID, courseId)
+            }
+        )
     }
 }

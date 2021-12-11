@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <dimen name="side_header_key_line">64dp</dimen>
+    <dimen name="side_header_padding">8dp</dimen>
+    <!-- Use dp because the side decoration has constrained width and we don't
+         want it to grow if the user sets large text scale in the system settings.
+    -->
+    <dimen name="side_header_primary_text_size">28dp</dimen>
+    <dimen name="side_header_secondary_text_size">12dp</dimen>
+</resources>

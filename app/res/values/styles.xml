@@ -4,4 +4,12 @@
     <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
         <item name="colorAccent">@color/colorAccent</item>
     </style>
+
+    <style name="AppTheme.SideHeader">
+        <item name="android:width">@dimen/side_header_key_line</item>
+        <item name="android:padding">@dimen/side_header_padding</item>
+        <item name="android:textColor">?colorPrimaryDark</item>
+        <item name="primaryTextSize">@dimen/side_header_primary_text_size</item>
+        <item name="secondaryTextSize">@dimen/side_header_secondary_text_size</item>
+    </style>
 </resources>
