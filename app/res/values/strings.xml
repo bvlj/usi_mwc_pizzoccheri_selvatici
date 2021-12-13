@@ -27,4 +27,7 @@
     <string name="preference_notification_title">Lecture notifications</string>
     <string name="preference_notification_summary_on">You will be notified when a lecture is about to start</string>
     <string name="preference_notification_summary_off">You will not be notified when a lecture is about to start</string>
+
+    <string name="day_selector_previous">Previous day</string>
+    <string name="day_selector_next">Next day</string>
 </resources>

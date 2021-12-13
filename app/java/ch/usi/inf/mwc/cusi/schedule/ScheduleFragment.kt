@@ -31,13 +31,20 @@ class ScheduleFragment : Fragment() {
 
         adapter = ScheduleAdapter()
 
-        val listView: RecyclerView = view.findViewById(R.id.courses_list)
+        val listView: RecyclerView = view.findViewById(R.id.schedule_courses_list)
         listView.adapter = adapter
         listView.layoutManager = LinearLayoutManager(requireContext())
         listView.itemAnimator = DefaultItemAnimator()
 
+        val daySelectorView: DaySelectorView = view.findViewById(R.id.schedule_day_selector)
+        daySelectorView.setOnDateSelectedListener {
+            lifecycleScope.launch {
+                adapter.setList(viewModel.getSchedule(it))
+            }
+        }
+
         lifecycleScope.launch {
-            adapter.setList(viewModel.getTodaySchedule())
+            adapter.setList(viewModel.getSchedule())
         }
     }
 }
