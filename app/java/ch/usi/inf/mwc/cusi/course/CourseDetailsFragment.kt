@@ -58,10 +58,6 @@ class CourseDetailsFragment : Fragment() {
             layoutManager = LinearLayoutManager(requireContext())
             itemAnimator = DefaultItemAnimator()
         }
-        enrollButton.setOnClickListener {
-            lifecycleScope.launch { viewModel.invertEnroll(courseId) }
-        }
-
         fetchContent()
     }
 
@@ -74,9 +70,16 @@ class CourseDetailsFragment : Fragment() {
             if (it.hasEnrolled) {
                 enrollButton.setIconResource(R.drawable.ic_enrolled)
                 enrollButton.setText(R.string.course_details_action_unenroll)
+                enrollButton.setOnClickListener {
+                    requireActivity().lifecycleScope.launch { viewModel.unenroll(courseId) }
+                }
+
             } else {
                 enrollButton.setIconResource(R.drawable.ic_unenrolled)
                 enrollButton.setText(R.string.course_details_action_enroll)
+                enrollButton.setOnClickListener {
+                    requireActivity().lifecycleScope.launch { viewModel.enroll(courseId) }
+                }
             }
 
             lecturersAdapter.setData(it.lecturers)

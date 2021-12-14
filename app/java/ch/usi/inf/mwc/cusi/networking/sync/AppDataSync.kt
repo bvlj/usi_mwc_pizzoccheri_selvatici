@@ -15,10 +15,11 @@ object AppDataSync {
     private const val TAG = "AppDataSync"
     private val scope = CoroutineScope(IO) + CoroutineName("AppDataSync")
 
+
     suspend fun fetchInfo(context: Context) {
         withContext(scope.coroutineContext) {
             Log.d(TAG, "Starting app data sync")
-            val database = AppDatabase.getInstance(context)
+            val database = getDatabase(context)
 
             // Fetch campuses
             UsiServices.getCampusesWithFaculties().forEach { campusWithFaculties ->
@@ -46,10 +47,7 @@ object AppDataSync {
                             }
 
                             if (info.hasEnrolled) {
-                                // Re-download lectures
-                                database.lectures().deleteAllOfCourse(info.courseId)
-                                UsiServices.getCourseWithLectures(courseWithLecturers).lectures
-                                    .forEach { lecture -> database.lectures().insert(lecture) }
+                                refreshCourseLectures(context, info.courseId)
                             }
                         }
                     }
@@ -57,5 +55,27 @@ object AppDataSync {
             }
         }
         Log.d(TAG, "Done syncing")
+    }
+
+     suspend fun refreshCourseLectures(context: Context, courseId: Int) {
+        val database = getDatabase(context)
+        database.lectures().deleteAllOfCourse(courseId)
+        val course = database.course().getCourse(courseId)
+
+        UsiServices.getCourseWithLectures(course).lectures
+            .forEach { lecture -> database.lectures().insert(lecture) }
+    }
+
+    suspend fun refreshAllEnrolledCoursesLectures(context: Context) {
+        val database = getDatabase(context)
+        val enrolledCourses = database.course().getEnrolled()
+        enrolledCourses.forEach {
+            refreshCourseLectures(context, it.courseWithLecturers.info.courseId)
+        }
+    }
+
+
+    private fun getDatabase(context: Context): AppDatabase {
+        return AppDatabase.getInstance(context)
     }
 }

@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface CourseDao {
-    @Insert(onConflict = OnConflictStrategy.FAIL)
+    @Insert(onConflict = OnConflictStrategy.ABORT)
     suspend fun insert(courseInfo: CourseInfo)
 
     @Update
@@ -33,7 +33,11 @@ interface CourseDao {
 
     @Query("SELECT * FROM CourseInfo WHERE courseId = :courseId LIMIT 1")
     @Transaction
-    fun getCourse(courseId: Int): LiveData<CourseWithLecturers>
+    fun getCourseLive(courseId: Int): LiveData<CourseWithLecturers>
+
+    @Query("SELECT * FROM CourseInfo WHERE courseId = :courseId LIMIT 1")
+    @Transaction
+    suspend fun getCourse(courseId: Int): CourseWithLecturers
 
     @Query("SELECT * FROM CourseInfo WHERE courseId = :courseId LIMIT 1")
     suspend fun getCourseInfo(courseId: Int): CourseInfo?
