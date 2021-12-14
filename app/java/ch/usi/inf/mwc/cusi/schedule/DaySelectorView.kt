@@ -107,7 +107,11 @@ class DaySelectorView @JvmOverloads constructor(
         }
 
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-            holder.setValue(dates[position])
+            holder.setValue(dates[position], when {
+                position == DAYS_TO_SHOW / 2 -> R.drawable.bg_day_selector
+                dates[position] == LocalDate.now() -> R.drawable.bg_day_selector_today
+                else -> 0
+            })
         }
 
         override fun getItemCount(): Int {
@@ -124,15 +128,15 @@ class DaySelectorView @JvmOverloads constructor(
 
         private inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
-            fun setValue(date: LocalDate) {
+            fun setValue(date: LocalDate, background: Int) {
                 val dayOfWeekView: TextView = itemView.findViewById(R.id.day_selector_weekday)
                 val dateView: TextView = itemView.findViewById(R.id.day_selector_date)
+                dayOfWeekView.setBackgroundResource(background)
 
                 dayOfWeekView.text = dayOfWeekFormatter.format(date)
                 dateView.text = dateFormatter.format(date)
                 itemView.apply {
                     setOnClickListener { onDateSelected(date) }
-                    isSelected = LocalDate.now() == date
                 }
             }
         }
@@ -146,14 +150,14 @@ class DaySelectorView @JvmOverloads constructor(
                 oldItemPosition: Int,
                 newItemPosition: Int
             ): Boolean {
-                return oldList[oldItemPosition] == newList[newItemPosition]
+                return false
             }
 
             override fun areItemsTheSame(
                 oldItemPosition: Int,
                 newItemPosition: Int,
             ): Boolean {
-                return areContentsTheSame(oldItemPosition, newItemPosition)
+                return oldList[oldItemPosition] == newList[newItemPosition]
             }
 
             override fun getNewListSize(): Int {

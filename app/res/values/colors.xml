@@ -13,4 +13,5 @@
 
 
     <color name="colorAccent">@color/orange_400</color>
+    <color name="dayView">#1CEDE7</color>
 </resources>
