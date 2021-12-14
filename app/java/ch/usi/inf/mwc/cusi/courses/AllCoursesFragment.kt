@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -49,6 +51,12 @@ class AllCoursesFragment : Fragment() {
                 viewModel.manualSync()
                 refreshLayout.isRefreshing = false
             }
+        }
+
+        val searchBar: EditText = view.findViewById(R.id.course_search)
+
+        searchBar.addTextChangedListener {
+            viewModel.setFilter(it.toString())
         }
 
         viewModel.getAllCourses().observe(this) { newList ->

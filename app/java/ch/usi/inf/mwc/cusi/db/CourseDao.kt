@@ -31,6 +31,10 @@ interface CourseDao {
     @Transaction
     fun getLiveAll(): LiveData<List<CourseWithLecturers>>
 
+    @Query("SELECT C.* FROM CourseInfo AS C, Faculty AS F WHERE F.facultyId == C.facultyId AND F.showCourses == 1 AND C.name LIKE :filter ORDER BY C.name")
+    @Transaction
+    fun getLiveFiltered(filter: String): LiveData<List<CourseWithLecturers>>
+
     @Query("SELECT * FROM CourseInfo WHERE courseId = :courseId LIMIT 1")
     @Transaction
     fun getCourseLive(courseId: Int): LiveData<CourseWithLecturers>
