@@ -23,6 +23,10 @@ interface CourseDao {
     @Transaction
     suspend fun getEnrolled(): List<Course>
 
+    @Query("SELECT * FROM CourseInfo WHERE hasEnrolled = 1")
+    @Transaction
+    fun getEnrolledLive(): LiveData<List<CourseWithLecturers>>
+
     @Query("SELECT * FROM CourseInfo")
     @Transaction
     fun getAll(): List<CourseWithLecturers>

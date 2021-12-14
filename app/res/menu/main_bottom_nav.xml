@@ -7,6 +7,11 @@
         android:title="@string/label_all_courses" />
 
     <item
+        android:id="@+id/nav_enrolled_courses"
+        android:icon="@drawable/ic_enrolled"
+        android:title="@string/course_details_status_enrolled" />
+
+    <item
         android:id="@+id/nav_schedule"
         android:icon="@drawable/ic_schedule"
         android:title="@string/label_schedule" />

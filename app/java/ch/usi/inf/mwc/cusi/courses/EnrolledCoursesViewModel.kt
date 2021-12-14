@@ -9,27 +9,16 @@ import ch.usi.inf.mwc.cusi.networking.sync.AppDataSync
 import kotlinx.coroutines.Dispatchers.Default
 import kotlinx.coroutines.withContext
 
-class AllCoursesViewModel(app: Application) : AndroidViewModel(app) {
+class EnrolledCoursesViewModel(app: Application) : AndroidViewModel(app) {
 
-    private val filter = MutableLiveData("")
 
     suspend fun manualSync() {
         AppDataSync.fetchInfo(getApplication())
     }
 
-    fun setFilter(value: String){
-        filter.value = value
-    }
 
     fun getAllCourses(): LiveData<List<CourseWithLecturers>> {
         val db = AppDatabase.getInstance(getApplication())
-        return filter.switchMap {
-            if (it.isEmpty()) {
-                db.course().getLiveAll()
-            } else {
-                db.course().getLiveFiltered("%$it%")
-            }
-
-        }
+        return db.course().getEnrolledLive()
     }
 }

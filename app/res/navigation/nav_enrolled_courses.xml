@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_enrolled_courses"
+    app:startDestination="@id/enrolledCoursesFragment">
+
+    <fragment
+        android:id="@+id/enrolledCoursesFragment"
+        android:name="ch.usi.inf.mwc.cusi.courses.EnrolledCoursesFragment"
+        android:label="@string/course_details_status_enrolled">
+        <action
+            android:id="@+id/action_enrolledCoursesFragment_to_courseDetailsFragment2"
+            app:destination="@id/courseDetailsFragment2"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"
+            app:popUpTo="@id/enrolledCoursesFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/courseDetailsFragment2"
+        android:name="ch.usi.inf.mwc.cusi.course.CourseDetailsFragment"
+        android:label="@string/label_course_info">
+        <argument
+            android:name="courseId"
+            android:defaultValue="-1"
+            app:argType="integer" />
+    </fragment>
+</navigation>
