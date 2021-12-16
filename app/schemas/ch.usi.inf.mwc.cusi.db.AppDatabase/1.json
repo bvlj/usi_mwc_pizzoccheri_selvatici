@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "64800ef837557f2473fe96781307a625",
+    "identityHash": "f2c5081b9071c6405f5e6f5d5ab63090",
     "entities": [
       {
         "tableName": "Campus",
@@ -282,20 +282,14 @@
         },
         "indices": [
           {
-            "name": "index_Lecture_end",
-            "unique": false,
+            "name": "index_Lecture_start_end_courseId",
+            "unique": true,
             "columnNames": [
-              "end"
-            ],
-            "createSql": "CREATE INDEX IF NOT EXISTS `index_Lecture_end` ON `${TABLE_NAME}` (`end`)"
-          },
-          {
-            "name": "index_Lecture_courseId",
-            "unique": false,
-            "columnNames": [
+              "start",
+              "end",
               "courseId"
             ],
-            "createSql": "CREATE INDEX IF NOT EXISTS `index_Lecture_courseId` ON `${TABLE_NAME}` (`courseId`)"
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_Lecture_start_end_courseId` ON `${TABLE_NAME}` (`start`, `end`, `courseId`)"
           }
         ],
         "foreignKeys": [
@@ -376,7 +370,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '64800ef837557f2473fe96781307a625')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'f2c5081b9071c6405f5e6f5d5ab63090')"
     ]
   }
 }

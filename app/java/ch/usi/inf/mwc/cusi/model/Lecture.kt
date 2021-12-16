@@ -13,8 +13,7 @@ import java.time.LocalDateTime
         )
     ],
     indices = [
-        Index("end"),
-        Index("courseId"),
+        Index(value = ["start", "end", "courseId"], unique = true)
     ]
 )
 data class Lecture(

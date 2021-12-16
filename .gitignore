@@ -20,3 +20,6 @@
 */.classpath
 */.project
 */.settings
+
+
+*.hprof

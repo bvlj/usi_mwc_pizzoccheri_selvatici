@@ -43,9 +43,9 @@ class AllCoursesAdapter(private val onCourseSelected: (Int) -> Unit) :
             val statusView: ImageView = itemView.findViewById(R.id.course_enroll_status)
 
             nameView.text = course.info.name
-            lecturersView.text = course.lecturers.map {
+            lecturersView.text = course.lecturers.joinToString(", ") {
                 "${it.lastName} ${it.firstName[0]}."
-            }.joinToString(", ")
+            }
             if (course.info.hasEnrolled) {
                 statusView.setImageResource(R.drawable.ic_enrolled)
             } else {

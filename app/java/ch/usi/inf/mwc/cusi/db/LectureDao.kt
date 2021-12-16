@@ -15,6 +15,6 @@ interface LectureDao {
     @Query("DELETE FROM Lecture WHERE courseId = :courseId")
     suspend fun deleteAllOfCourse(courseId: Int)
 
-    @Query("SELECT L.* FROM Lecture AS L, CourseInfo AS CI WHERE CI.courseId=L.courseId AND CI.hasEnrolled=1 AND L.start> :start AND L.start < :end")
+    @Query("SELECT L.* FROM Lecture AS L, CourseInfo AS CI WHERE CI.courseId=L.courseId AND CI.hasEnrolled=1 AND L.start> :start AND L.start < :end ORDER BY L.start")
     suspend fun selectAllEnrolledWithinDates(start: LocalDateTime, end: LocalDateTime): List<Lecture>
 }
