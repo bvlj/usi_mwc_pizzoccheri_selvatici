@@ -1,0 +1,59 @@
+package ch.usi.inf.mwc.cusi.utils
+
+import android.content.Context
+import android.location.Address
+import android.location.Geocoder
+import android.location.Location
+import android.location.LocationManager
+import java.util.*
+import kotlin.math.*
+
+object LocationUtils {
+    private const val LOWER_LEFT_LATITUDE = 45.848586
+    private const val LOWER_LEFT_LONGITUDE = 8.921750
+    private const val UPPER_RIGHT_LATITUDE = 46.251246
+    private const val UPPER_RIGHT_LONGITUDE = 9.059947
+
+    private const val EARTH_RADIUS = 6_371_000 // meters
+
+    fun addressFromString(context: Context, address: String): Address? {
+        val geocoder = Geocoder(context, Locale.getDefault())
+        return geocoder.getFromLocationName(
+            address,
+            1,
+            LOWER_LEFT_LATITUDE,
+            LOWER_LEFT_LONGITUDE,
+            UPPER_RIGHT_LATITUDE,
+            UPPER_RIGHT_LONGITUDE
+        ).firstOrNull()
+    }
+
+    fun getLastGoodLocation(context: Context): Location? {
+        val lm = context.getSystemService(LocationManager::class.java) ?: return null
+        return try {
+            lm.getLastKnownLocation(LocationManager.GPS_PROVIDER)
+                ?: lm.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
+                ?: lm.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER)
+        } catch (e: SecurityException) {
+            null
+        }
+    }
+
+    /**
+     * Compute distance between two points using
+     * haversine formula.
+     */
+    operator fun Location.minus(address: Address): Double {
+        // https://en.wikipedia.org/wiki/Haversine_formula
+        val toRadians = PI / 180.0
+        val phi1 = latitude * toRadians
+        val phi2 = address.latitude * toRadians
+        val deltaPhi = (address.latitude - latitude) * toRadians
+        val deltaLambda = (address.longitude - longitude) * toRadians
+        val a = sin(deltaPhi / 2.0).pow(2.0) +
+                cos(phi1) * cos(phi2) +
+                sin(deltaLambda / 2.0).pow(2.0)
+        val c = 2 * atan2(sqrt(a), sqrt(1 - a))
+        return EARTH_RADIUS * c
+    }
+}

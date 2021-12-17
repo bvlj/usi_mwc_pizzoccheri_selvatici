@@ -39,6 +39,8 @@ class CourseDetailsViewModel(app: Application) : AndroidViewModel(app) {
 
     suspend fun unenroll(courseId: Int) {
         manageEnroll(courseId, false)
+        val db = AppDatabase.getInstance(getApplication())
+        db.lectures().deleteAllOfCourse(courseId)
     }
 
     private fun prepareDescription(course: CourseInfo): CharSequence {

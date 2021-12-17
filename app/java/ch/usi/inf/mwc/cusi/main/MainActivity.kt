@@ -7,14 +7,15 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
-import androidx.work.Constraints
-import androidx.work.NetworkType
-import androidx.work.OneTimeWorkRequestBuilder
-import androidx.work.WorkManager
+import androidx.work.*
 import ch.usi.inf.mwc.cusi.R
+import ch.usi.inf.mwc.cusi.model.Lecture
 import ch.usi.inf.mwc.cusi.networking.sync.CoreDataSyncWorker
 import ch.usi.inf.mwc.cusi.networking.sync.SyncInfoStorage
+import ch.usi.inf.mwc.cusi.notification.LectureNotificationUtil
+import ch.usi.inf.mwc.cusi.notification.NotificationSchedulerWorker
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import java.util.concurrent.TimeUnit
 
 class MainActivity : AppCompatActivity() {
 
@@ -51,6 +52,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun syncCoreDataIfNeed() {
+        val wm = WorkManager.getInstance(this)
         if (SyncInfoStorage(this).shouldSync()) {
             val coreDataSyncRequest = OneTimeWorkRequestBuilder<CoreDataSyncWorker>()
                 .setConstraints(
@@ -58,8 +60,8 @@ class MainActivity : AppCompatActivity() {
                         .setRequiredNetworkType(NetworkType.CONNECTED)
                         .build()
                 ).build()
-            WorkManager.getInstance(this)
-                .enqueue(coreDataSyncRequest)
+            wm.enqueue(coreDataSyncRequest)
         }
+        LectureNotificationUtil.schedule(wm)
     }
 }

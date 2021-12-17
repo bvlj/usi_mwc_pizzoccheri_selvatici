@@ -31,10 +31,21 @@ class SyncInfoStorage(context: Context) {
             .apply()
     }
 
+    fun shouldScheduleNotification(): Boolean {
+        return preferences.getBoolean(KEY_SCHEDULED_NOTIFICATIONS, true)
+    }
+
+    fun setNotificationScheduled() {
+        preferences.edit()
+            .putBoolean(KEY_SCHEDULED_NOTIFICATIONS, false)
+            .apply()
+    }
+
     private companion object {
         const val PREFERENCES_DATA_SYNC = "data_sync"
         const val KEY_LAST_SYNC = "last_sync_date_time"
         const val KEY_SYNC_FREQ = "sync_freq"
+        const val KEY_SCHEDULED_NOTIFICATIONS = "scheduled_notifications"
         const val VAL_SYNC_FREQ_NEVER = -1
         const val VAL_SYNC_FREQ_DEFAULT = 0 // Days
 
