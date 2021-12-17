@@ -57,12 +57,13 @@ object AppDataSync {
         Log.d(TAG, "Done syncing")
     }
 
-     suspend fun refreshCourseLectures(context: Context, courseId: Int) {
+    suspend fun refreshCourseLectures(context: Context, courseId: Int) {
         val database = getDatabase(context)
         database.lectures().deleteAllOfCourse(courseId)
         val course = database.course().getCourse(courseId)
 
         UsiServices.getCourseWithLectures(course).lectures
+            .distinctBy { it.start to it.end to it.courseId }
             .forEach { lecture -> database.lectures().insert(lecture) }
     }
 
