@@ -9,13 +9,10 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import androidx.work.*
 import ch.usi.inf.mwc.cusi.R
-import ch.usi.inf.mwc.cusi.model.Lecture
 import ch.usi.inf.mwc.cusi.networking.sync.CoreDataSyncWorker
 import ch.usi.inf.mwc.cusi.networking.sync.SyncInfoStorage
 import ch.usi.inf.mwc.cusi.notification.LectureNotificationUtil
-import ch.usi.inf.mwc.cusi.notification.NotificationSchedulerWorker
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import java.util.concurrent.TimeUnit
 
 class MainActivity : AppCompatActivity() {
 
@@ -33,7 +30,7 @@ class MainActivity : AppCompatActivity() {
 
         val appBarConfiguration = AppBarConfiguration(
             setOf(
-                R.id.allCoursesFragment,
+                R.id.coursesAllFragment,
                 R.id.enrolledCoursesFragment,
                 R.id.scheduleFragment,
                 R.id.preferencesFragment,

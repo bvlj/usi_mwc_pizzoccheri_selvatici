@@ -16,7 +16,9 @@ import java.time.format.DateTimeFormatter
 
 private typealias LectureInfo = Pair<Lecture, CourseInfo>
 
-class ScheduleAdapter : RecyclerView.Adapter<ScheduleAdapter.ViewHolder>() {
+class ScheduleAdapter(
+    private val onCourseSelected: (Int) -> Unit,
+) : RecyclerView.Adapter<ScheduleAdapter.ViewHolder>() {
     private var data: List<LectureInfo> = emptyList()
 
     fun setList(data: List<LectureInfo>) {
@@ -35,12 +37,12 @@ class ScheduleAdapter : RecyclerView.Adapter<ScheduleAdapter.ViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.setContent(data[position])
+        holder.setContent(data[position], onCourseSelected)
     }
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
-        fun setContent(lectureInfo: LectureInfo) {
+        fun setContent(lectureInfo: LectureInfo, onCourseSelected: (Int) -> Unit) {
             val nameView: TextView = itemView.findViewById(R.id.course_name)
             val roomAndTimeView: TextView = itemView.findViewById(R.id.course_room)
 
@@ -53,6 +55,7 @@ class ScheduleAdapter : RecyclerView.Adapter<ScheduleAdapter.ViewHolder>() {
             val room = lectureInfo.first.lectureLocation.room
             roomAndTimeView.text = "$time\n$room"
 
+            itemView.setOnClickListener { onCourseSelected(lectureInfo.second.courseId) }
         }
     }
 

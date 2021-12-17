@@ -76,7 +76,7 @@ class AllCoursesFragment : Fragment() {
 
     private fun openCourseInfo(courseId: Int) {
         findNavController().navigate(
-            R.id.action_allCoursesFragment_to_courseDetailsFragment,
+            R.id.action_coursesAll_to_coursesDetails,
             Bundle().apply {
                 putInt(CourseDetailsFragment.EXTRA_COURSE_ID, courseId)
             }

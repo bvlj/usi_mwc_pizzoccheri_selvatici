@@ -7,10 +7,12 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import ch.usi.inf.mwc.cusi.R
+import ch.usi.inf.mwc.cusi.course.CourseDetailsFragment
 import kotlinx.coroutines.launch
 
 class ScheduleFragment : Fragment() {
@@ -29,7 +31,14 @@ class ScheduleFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        adapter = ScheduleAdapter()
+        adapter = ScheduleAdapter {
+            findNavController().navigate(
+                R.id.action_schedule_to_scheduleDetails,
+                Bundle().apply {
+                    putInt(CourseDetailsFragment.EXTRA_COURSE_ID, it)
+                }
+            )
+        }
 
         val listView: RecyclerView = view.findViewById(R.id.schedule_courses_list)
         listView.adapter = adapter

@@ -7,5 +7,22 @@
     <fragment
         android:id="@+id/scheduleFragment"
         android:name="ch.usi.inf.mwc.cusi.schedule.ScheduleFragment"
-        android:label="@string/label_schedule" />
+        android:label="@string/label_schedule">
+        <action
+            android:id="@+id/action_schedule_to_scheduleDetails"
+            app:destination="@id/scheduleDetailsFragment3"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+    </fragment>
+    <fragment
+        android:id="@+id/scheduleDetailsFragment3"
+        android:name="ch.usi.inf.mwc.cusi.course.CourseDetailsFragment"
+        android:label="@string/label_course_info">
+        <argument
+            android:name="courseId"
+            android:defaultValue="-1"
+            app:argType="integer" />
+    </fragment>
 </navigation>

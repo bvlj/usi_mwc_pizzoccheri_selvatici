@@ -9,16 +9,15 @@
         android:name="ch.usi.inf.mwc.cusi.courses.EnrolledCoursesFragment"
         android:label="@string/course_details_status_enrolled">
         <action
-            android:id="@+id/action_enrolledCoursesFragment_to_courseDetailsFragment2"
-            app:destination="@id/courseDetailsFragment2"
+            android:id="@+id/action_enrolledCourses_to_enrolledDetails"
+            app:destination="@id/enrolledDetailsFragment"
             app:enterAnim="@anim/nav_default_enter_anim"
             app:exitAnim="@anim/nav_default_exit_anim"
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-            app:popExitAnim="@anim/nav_default_pop_exit_anim"
-            app:popUpTo="@id/enrolledCoursesFragment" />
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
     </fragment>
     <fragment
-        android:id="@+id/courseDetailsFragment2"
+        android:id="@+id/enrolledDetailsFragment"
         android:name="ch.usi.inf.mwc.cusi.course.CourseDetailsFragment"
         android:label="@string/label_course_info">
         <argument

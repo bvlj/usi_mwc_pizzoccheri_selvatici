@@ -4,8 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.EditText
-import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -71,7 +69,7 @@ class EnrolledCoursesFragment : Fragment() {
 
     private fun openCourseInfo(courseId: Int) {
         findNavController().navigate(
-            R.id.action_enrolledCoursesFragment_to_courseDetailsFragment2,
+            R.id.action_enrolledCourses_to_enrolledDetails,
             Bundle().apply {
                 putInt(CourseDetailsFragment.EXTRA_COURSE_ID, courseId)
             }
