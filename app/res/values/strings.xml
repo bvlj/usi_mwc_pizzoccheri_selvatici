@@ -6,7 +6,7 @@
     <string name="label_schedule">Schedule</string>
     <string name="label_preferences">Preferences</string>
     <string name="label_course_info">Course info</string>
-    <string name="search_courses">Search</string>
+    <string name="label_test">Test mode</string>
 
     <string name="course_details_action_unenroll">Unenroll</string>
     <string name="course_details_action_enroll">Enroll</string>
@@ -16,6 +16,7 @@
     <string name="course_details_mail_lecturer">Email %1$s</string>
     <string name="course_details_status_enrolled">Enrolled</string>
     <string name="course_details_status_not_enrolled">Not enrolled</string>
+    <string name="search_courses">Search</string>
 
     <string name="preference_faculties_title">Selected faculties</string>
     <plurals name="preference_faculties_summary">
@@ -41,4 +42,7 @@
 
     <string name="notification_channel_title">Lecture reminders</string>
     <string name="notification_message">A lecture of the "%1$s" course is about to begin! Head to %2$s at %3$s</string>
+
+    <string name="test_test_address">Lecture address</string>
+    <string name="test_test_notification">Send test notification</string>
 </resources>

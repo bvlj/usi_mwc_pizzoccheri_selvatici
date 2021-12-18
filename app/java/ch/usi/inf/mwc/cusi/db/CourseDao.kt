@@ -6,7 +6,6 @@ import ch.usi.inf.mwc.cusi.db.model.CourseLecturerCrossRef
 import ch.usi.inf.mwc.cusi.model.Course
 import ch.usi.inf.mwc.cusi.model.CourseInfo
 import ch.usi.inf.mwc.cusi.model.CourseWithLecturers
-import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface CourseDao {
@@ -15,6 +14,9 @@ interface CourseDao {
 
     @Update
     suspend fun update(courseInfo: CourseInfo)
+
+    @Delete
+    suspend fun delete(courseInfo: CourseInfo)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertCrossRef(courseLecturerCrossRef: CourseLecturerCrossRef)
@@ -52,8 +54,6 @@ interface CourseDao {
 
     @Query("SELECT hasEnrolled FROM CourseInfo WHERE courseId = :courseId LIMIT 1")
     suspend fun hasEnrolled(courseId: Int): Boolean?
-
-
 
     @Transaction
     suspend fun insertOrUpdateIfExists(courseInfo: CourseInfo): CourseInfo{

@@ -25,5 +25,22 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".test.TestActivity"
+            android:theme="@style/Theme.MaterialComponents.DayNight.DarkActionBar"
+            android:exported="true" />
+
+        <!-- Secret Code Receiver, which is used to launch different activities via dialer codes -->
+        <receiver
+            android:name=".test.SecretCodeReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.provider.Telephony.SECRET_CODE" />
+                <data
+                    android:host="2874"
+                    android:scheme="android_secret_code" />
+            </intent-filter>
+        </receiver>
     </application>
 </manifest>

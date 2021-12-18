@@ -46,14 +46,18 @@ object LocationUtils {
     operator fun Location.minus(address: Address): Double {
         // https://en.wikipedia.org/wiki/Haversine_formula
         val toRadians = PI / 180.0
-        val phi1 = latitude * toRadians
-        val phi2 = address.latitude * toRadians
-        val deltaPhi = (address.latitude - latitude) * toRadians
-        val deltaLambda = (address.longitude - longitude) * toRadians
-        val a = sin(deltaPhi / 2.0).pow(2.0) +
-                cos(phi1) * cos(phi2) +
-                sin(deltaLambda / 2.0).pow(2.0)
-        val c = 2 * atan2(sqrt(a), sqrt(1 - a))
-        return EARTH_RADIUS * c
+        val lon1 = longitude * toRadians
+        val lat1 = latitude * toRadians
+        val lon2 = address.longitude * toRadians
+        val lat2 = address.latitude * toRadians
+
+        val deltaLon = lon1 - lon2
+        val deltaLat = lat1 - lat2
+        val a = sin(deltaLat / 2.0).pow(2.0) +
+                cos(lat1) *
+                cos(lat2) *
+                sin(deltaLon / 2.0).pow(2.0)
+        val c = 2 * asin(sqrt(a))
+        return c * EARTH_RADIUS
     }
 }

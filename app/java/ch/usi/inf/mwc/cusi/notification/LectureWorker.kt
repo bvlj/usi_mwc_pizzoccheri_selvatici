@@ -67,14 +67,18 @@ class LectureWorker(
             )
         }
 
+        val message = context.getString(
+            R.string.notification_message,
+            courseName,
+            room,
+            address
+        )
         val notification = Notification.Builder(context, CHANNEL_ID)
+            .setStyle(Notification.BigTextStyle().bigText(message))
+            .setSmallIcon(R.drawable.ic_notification)
             .setContentTitle(courseName)
-            .setContentText(
-                context.getString(
-                    R.string.notification_message, courseName,
-                    room, address
-                )
-            ).build()
+            .setContentText(message)
+            .build()
         nm.notify(courseName.hashCode(), notification)
     }
 

@@ -12,6 +12,9 @@ interface LectureDao {
     @Insert
     suspend fun insert(lecture: Lecture)
 
+    @Query("SELECT * FROM Lecture WHERE id = :lectureId LIMIT 1")
+    suspend fun getLecture(lectureId: Int): Lecture?
+
     @Query("DELETE FROM Lecture WHERE courseId = :courseId")
     suspend fun deleteAllOfCourse(courseId: Int)
 
