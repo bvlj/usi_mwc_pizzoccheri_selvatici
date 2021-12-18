@@ -10,7 +10,10 @@ import androidx.recyclerview.widget.RecyclerView
 import ch.usi.inf.mwc.cusi.R
 import ch.usi.inf.mwc.cusi.model.CourseWithLecturers
 
-class AllCoursesAdapter(private val onCourseSelected: (Int) -> Unit) :
+class AllCoursesAdapter(
+    private val showEnrollIcon: Boolean,
+    private val onCourseSelected: (Int) -> Unit,
+) :
     RecyclerView.Adapter<AllCoursesAdapter.ViewHolder>() {
     private var data: List<CourseWithLecturers> = emptyList()
 
@@ -32,12 +35,16 @@ class AllCoursesAdapter(private val onCourseSelected: (Int) -> Unit) :
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.setContent(data[position], onCourseSelected)
+        holder.setContent(data[position], showEnrollIcon, onCourseSelected)
     }
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
-        fun setContent(course: CourseWithLecturers, onCourseSelected: (Int) -> Unit) {
+        fun setContent(
+            course: CourseWithLecturers,
+            showEnrollIcon: Boolean,
+            onCourseSelected: (Int) -> Unit,
+        ) {
             val nameView: TextView = itemView.findViewById(R.id.course_name)
             val lecturersView: TextView = itemView.findViewById(R.id.course_lecturers)
             val statusView: ImageView = itemView.findViewById(R.id.course_enroll_status)
@@ -46,7 +53,7 @@ class AllCoursesAdapter(private val onCourseSelected: (Int) -> Unit) :
             lecturersView.text = course.lecturers.joinToString(", ") {
                 "${it.lastName} ${it.firstName[0]}."
             }
-            if (course.info.hasEnrolled) {
+            if (course.info.hasEnrolled && showEnrollIcon) {
                 statusView.setImageResource(R.drawable.ic_enrolled)
             } else {
                 statusView.setImageDrawable(null)

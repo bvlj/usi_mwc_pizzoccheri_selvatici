@@ -16,7 +16,10 @@
     <string name="course_details_mail_lecturer">Email %1$s</string>
     <string name="course_details_status_enrolled">Enrolled</string>
     <string name="course_details_status_not_enrolled">Not enrolled</string>
-    <string name="search_courses">Search</string>
+
+    <string name="courses_search">Search</string>
+    <string name="courses_empty">Select a faculty and pull down to fetch courses info</string>
+    <string name="courses_enrolled_empty">Enroll in a course to see it here</string>
 
     <string name="preference_faculties_title">Selected faculties</string>
     <plurals name="preference_faculties_summary">
@@ -39,6 +42,7 @@
 
     <string name="day_selector_previous">Previous day</string>
     <string name="day_selector_next">Next day</string>
+    <string name="schedule_empty">All done for today 🎉</string>
 
     <string name="notification_channel_title">Lecture reminders</string>
     <string name="notification_message">A lecture of the "%1$s" course is about to begin! Head to %2$s at %3$s</string>

@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -35,12 +36,14 @@ class EnrolledCoursesFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        adapter = AllCoursesAdapter { openCourseInfo(it) }
+        adapter = AllCoursesAdapter(false) { openCourseInfo(it) }
 
         val listView: RecyclerView = view.findViewById(R.id.courses_list)
         listView.adapter = adapter
         listView.layoutManager = LinearLayoutManager(requireContext())
         listView.itemAnimator = DefaultItemAnimator()
+
+        val emptyView: TextView = view.findViewById(R.id.enrolled_empty)
 
         val refreshLayout: SwipeRefreshLayout = view.findViewById(R.id.courses_refresh)
         refreshLayout.setOnRefreshListener {
@@ -50,7 +53,6 @@ class EnrolledCoursesFragment : Fragment() {
                 refreshLayout.isRefreshing = false
             }
         }
-
 
         viewModel.getAllCourses().observe(this) { newList ->
             val decorationData = newList.mapIndexed { i, it -> i to it.info.name.first() }
@@ -63,6 +65,7 @@ class EnrolledCoursesFragment : Fragment() {
                 addItemDecoration(SideHeaderDecoration(requireContext(), decorationData))
             }
 
+            emptyView.visibility = if (newList.isEmpty()) View.VISIBLE else View.GONE
             adapter.setList(newList)
         }
     }

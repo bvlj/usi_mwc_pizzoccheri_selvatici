@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
+import android.widget.TextView
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -37,12 +38,14 @@ class AllCoursesFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        adapter = AllCoursesAdapter { openCourseInfo(it) }
+        adapter = AllCoursesAdapter(true) { openCourseInfo(it) }
 
         val listView: RecyclerView = view.findViewById(R.id.courses_list)
         listView.adapter = adapter
         listView.layoutManager = LinearLayoutManager(requireContext())
         listView.itemAnimator = DefaultItemAnimator()
+
+        val emptyView: TextView = view.findViewById(R.id.courses_empty)
 
         val refreshLayout: SwipeRefreshLayout = view.findViewById(R.id.courses_refresh)
         refreshLayout.setOnRefreshListener {
@@ -70,6 +73,7 @@ class AllCoursesFragment : Fragment() {
                 addItemDecoration(SideHeaderDecoration(requireContext(), decorationData))
             }
 
+            emptyView.visibility = if (newList.isEmpty()) View.VISIBLE else View.GONE
             adapter.setList(newList)
         }
     }
