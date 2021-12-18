@@ -40,6 +40,13 @@
         <item>Force light</item>
         <item>Force dark</item>
     </string-array>
+    <string name="preference_sync_freq_title">Sync frequency</string>
+    <string-array name="preference_sync_frequency">
+        <item>Never (manually)</item>
+        <item>Every day</item>
+        <item>Every 3 days</item>
+        <item>Every week</item>
+    </string-array>
 
     <string name="day_selector_previous">Previous day</string>
     <string name="day_selector_next">Next day</string>

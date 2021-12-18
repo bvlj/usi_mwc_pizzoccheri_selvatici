@@ -9,11 +9,12 @@
         tools:summary="Courses from all the faculties will be shown" />
 
     <ListPreference
+        android:defaultValue="0"
         android:entries="@array/preference_style_values"
         android:key="key_style"
         android:summary="%s"
-        android:defaultValue="0"
-        android:title="@string/preference_style_title" />
+        android:title="@string/preference_style_title"
+        tools:summary="Follow system" />
 
     <SwitchPreference
         android:defaultValue="false"
@@ -21,4 +22,12 @@
         android:summaryOff="@string/preference_notification_summary_off"
         android:summaryOn="@string/preference_notification_summary_on"
         android:title="@string/preference_notification_title" />
+
+    <ListPreference
+        android:defaultValue="0"
+        android:entries="@array/preference_sync_frequency"
+        android:key="key_sync_frequency"
+        android:summary="%s"
+        android:title="@string/preference_sync_freq_title"
+        tools:summary="Every day" />
 </PreferenceScreen>

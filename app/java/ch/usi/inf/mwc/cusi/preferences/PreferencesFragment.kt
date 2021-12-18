@@ -41,6 +41,9 @@ class PreferencesFragment : PreferenceFragmentCompat() {
         val notificationsPreference = findPreference<SwitchPreference>(
             Preferences.KEY_NOTIFICATIONS
         )
+        val syncFrequencyPreference = findPreference<ListPreference>(
+            Preferences.KEY_SYNC_FREQUENCY
+        )
 
         darkModePreference?.apply {
             entryValues = arrayOf(
@@ -62,6 +65,14 @@ class PreferencesFragment : PreferenceFragmentCompat() {
                     true
                 }
             }
+        }
+        syncFrequencyPreference?.apply {
+            entryValues = arrayOf(
+                Preferences.VALUE_SYNC_NEVER,
+                Preferences.VALUE_SYNC_DAILY,
+                Preferences.VALUE_SYNC_3_DAYS,
+                Preferences.VALUE_SYNC_7_DAYS,
+            )
         }
 
         viewModel.getFaculties().observe(this) { faculties ->
