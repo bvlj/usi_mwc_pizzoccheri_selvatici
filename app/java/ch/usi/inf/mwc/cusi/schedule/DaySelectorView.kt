@@ -107,11 +107,13 @@ class DaySelectorView @JvmOverloads constructor(
         }
 
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-            holder.setValue(dates[position], when {
-                position == DAYS_TO_SHOW / 2 -> R.drawable.bg_day_selector
-                dates[position] == LocalDate.now() -> R.drawable.bg_day_selector_today
-                else -> 0
-            })
+            holder.setValue(
+                dates[position], when {
+                    position == DAYS_TO_SHOW / 2 -> DayType.SELECTED
+                    dates[position] == LocalDate.now() -> DayType.TODAY
+                    else -> DayType.DEFAULT
+                }
+            )
         }
 
         override fun getItemCount(): Int {
@@ -128,12 +130,18 @@ class DaySelectorView @JvmOverloads constructor(
 
         private inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
-            fun setValue(date: LocalDate, background: Int) {
+            fun setValue(date: LocalDate, type: DayType) {
                 val dayOfWeekView: TextView = itemView.findViewById(R.id.day_selector_weekday)
                 val dateView: TextView = itemView.findViewById(R.id.day_selector_date)
-                dayOfWeekView.setBackgroundResource(background)
 
                 dayOfWeekView.text = dayOfWeekFormatter.format(date)
+                dayOfWeekView.setBackgroundResource(
+                    when (type) {
+                        DayType.SELECTED -> R.drawable.bg_day_selector
+                        DayType.TODAY -> R.drawable.bg_day_selector_today
+                        DayType.DEFAULT -> 0
+                    }
+                )
                 dateView.text = dateFormatter.format(date)
                 itemView.apply {
                     setOnClickListener { onDateSelected(date) }
@@ -180,5 +188,11 @@ class DaySelectorView @JvmOverloads constructor(
                 middleDate.plusDays(it - DAYS_TO_SHOW / 2L)
             }
         }
+    }
+
+    private enum class DayType {
+        SELECTED,
+        TODAY,
+        DEFAULT,
     }
 }

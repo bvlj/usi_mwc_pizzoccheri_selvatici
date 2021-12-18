@@ -2,12 +2,17 @@ package ch.usi.inf.mwc.cusi.main
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
+import androidx.core.view.WindowCompat
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
-import androidx.work.*
+import androidx.work.Constraints
+import androidx.work.NetworkType
+import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.WorkManager
 import ch.usi.inf.mwc.cusi.R
 import ch.usi.inf.mwc.cusi.networking.sync.CoreDataSyncWorker
 import ch.usi.inf.mwc.cusi.networking.sync.SyncInfoStorage
@@ -23,6 +28,12 @@ class MainActivity : AppCompatActivity() {
 
         setContentView(R.layout.activity_main)
 
+        val toolbar: Toolbar = findViewById(R.id.toolbar)
+        val bottomBar: BottomNavigationView = findViewById(R.id.bottom_nav)
+
+        setSupportActionBar(toolbar)
+        WindowCompat.setDecorFitsSystemWindows(window, false)
+
         val navHostFragment = supportFragmentManager.findFragmentById(
             R.id.nav_host_container
         ) as NavHostFragment
@@ -37,8 +48,6 @@ class MainActivity : AppCompatActivity() {
             )
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
-
-        val bottomBar: BottomNavigationView = findViewById(R.id.bottom_nav)
         bottomBar.setupWithNavController(navController)
 
         syncCoreDataIfNeed()

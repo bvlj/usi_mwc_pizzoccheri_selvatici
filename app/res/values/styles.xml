@@ -1,14 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+    <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimary</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorSecondary">@color/colorSecondary</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:windowLightNavigationBar">@bool/isDay</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
     </style>
 
     <style name="AppTheme.SideHeader">
         <item name="android:width">@dimen/side_header_key_line</item>
         <item name="android:padding">@dimen/side_header_padding</item>
-        <item name="android:textColor">?colorPrimaryDark</item>
+        <item name="android:textColor">?android:attr/colorPrimary</item>
         <item name="primaryTextSize">@dimen/side_header_primary_text_size</item>
         <item name="secondaryTextSize">@dimen/side_header_secondary_text_size</item>
     </style>
