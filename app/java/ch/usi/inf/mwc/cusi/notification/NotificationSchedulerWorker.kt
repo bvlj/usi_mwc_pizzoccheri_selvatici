@@ -1,9 +1,12 @@
 package ch.usi.inf.mwc.cusi.notification
 
 import android.content.Context
+import android.content.SharedPreferences
 import android.util.Log
+import androidx.preference.PreferenceManager
 import androidx.work.*
 import ch.usi.inf.mwc.cusi.db.AppDatabase
+import ch.usi.inf.mwc.cusi.preferences.Preferences
 import java.time.*
 import java.util.concurrent.TimeUnit
 
@@ -13,6 +16,12 @@ class NotificationSchedulerWorker(
 ) : CoroutineWorker(context, parameters) {
 
     override suspend fun doWork(): Result {
+        val preferences = PreferenceManager.getDefaultSharedPreferences(applicationContext)
+        if (!preferences.getBoolean(Preferences.KEY_NOTIFICATIONS, false)) {
+            // Do not schedule notifications if feature is disabled
+            return Result.success()
+        }
+
         val db = AppDatabase.getInstance(applicationContext)
         val start = LocalDateTime.now()
         val end = LocalDate.now().atTime(23, 59, 59)

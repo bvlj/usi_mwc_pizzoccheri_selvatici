@@ -9,7 +9,7 @@ import java.util.concurrent.TimeUnit
 
 object LectureNotificationUtil {
     private const val TAG = "LectureNotificationUtil"
-    private const val DEBUG = true
+    private const val DEBUG = false
 
     fun schedule(workManager: WorkManager) {
         Log.d(TAG, "Scheduling periodic requests")
