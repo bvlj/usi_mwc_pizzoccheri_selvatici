@@ -2,6 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="?android:selectableItemBackground"
     android:orientation="vertical"
     android:paddingHorizontal="16dp"
     android:paddingVertical="8dp">
@@ -18,8 +19,5 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
-        tools:text="Room: D 01,\n 10:30  " />
-
-
-
+        tools:text="Room: D 01,\n 10:30" />
 </LinearLayout>

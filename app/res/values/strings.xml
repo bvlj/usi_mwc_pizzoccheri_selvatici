@@ -8,7 +8,7 @@
     <string name="label_course_info">Course info</string>
     <string name="label_test">Test mode</string>
 
-    <string name="course_details_action_unenroll">Unenroll</string>
+    <string name="course_details_action_unenroll">Enrolled</string>
     <string name="course_details_action_enroll">Enroll</string>
     <string name="course_details_title_description">Description</string>
     <string name="course_details_title_lecturers">Lecturers</string>
