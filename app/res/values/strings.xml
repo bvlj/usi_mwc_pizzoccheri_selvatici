@@ -32,6 +32,7 @@
     <string name="preference_notification_title">Lecture notifications</string>
     <string name="preference_notification_summary_on">You will be notified when a lecture is about to start</string>
     <string name="preference_notification_summary_off">You will not be notified when a lecture is about to start</string>
+    <string name="preference_notification_summary_permissions">Background location access is required to use this feature</string>
     <string name="preference_style_title">Style</string>
     <string-array name="preference_style_values">
         <item>Follow system</item>
