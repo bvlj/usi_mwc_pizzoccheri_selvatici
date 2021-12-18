@@ -20,8 +20,10 @@
     <color name="purple_700">#4C41A8</color>
     <color name="purple_800">#3E3385</color>
     <color name="purple_900">#302661</color>
+    <color name="purple_950">#0A0814</color>
 
     <color name="colorPrimary">@color/purple_500</color>
+    <color name="colorPrimaryAlternative">@color/purple_050</color>
     <color name="colorAccent">@color/orange_500</color>
     <color name="colorSecondary">@color/orange_200</color>
 </resources>
