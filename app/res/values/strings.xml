@@ -28,6 +28,13 @@
     <string name="preference_notification_title">Lecture notifications</string>
     <string name="preference_notification_summary_on">You will be notified when a lecture is about to start</string>
     <string name="preference_notification_summary_off">You will not be notified when a lecture is about to start</string>
+    <string name="preference_style_title">Style</string>
+    <string-array name="preference_style_values">
+        <item>Follow system</item>
+        <item>Ambient light</item>
+        <item>Force light</item>
+        <item>Force dark</item>
+    </string-array>
 
     <string name="day_selector_previous">Previous day</string>
     <string name="day_selector_next">Next day</string>
