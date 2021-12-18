@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import ch.usi.inf.mwc.cusi.R
 import ch.usi.inf.mwc.cusi.course.CourseDetailsFragment
+import ch.usi.inf.mwc.cusi.utils.ui.dayselector.DaySelectorView
 import kotlinx.coroutines.launch
 import java.time.LocalDate
 
