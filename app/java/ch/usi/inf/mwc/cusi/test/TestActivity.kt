@@ -3,6 +3,7 @@ package ch.usi.inf.mwc.cusi.test
 import android.location.Address
 import android.location.Geocoder
 import android.os.Bundle
+import android.os.Handler
 import android.widget.Button
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
@@ -15,7 +16,10 @@ import ch.usi.inf.mwc.cusi.model.Lecture
 import ch.usi.inf.mwc.cusi.model.LectureLocation
 import ch.usi.inf.mwc.cusi.notification.LectureNotificationUtil
 import ch.usi.inf.mwc.cusi.utils.LocationUtils
+import kotlinx.coroutines.Dispatchers.Default
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.time.LocalDateTime
 
 class TestActivity : AppCompatActivity() {
@@ -36,7 +40,9 @@ class TestActivity : AppCompatActivity() {
 
         notificationBtn.setOnClickListener {
             lifecycleScope.launch {
+                it.isEnabled = false
                 scheduleTestNotification(addressField.text.toString())
+                it.isEnabled = true
             }
         }
     }
@@ -65,6 +71,9 @@ class TestActivity : AppCompatActivity() {
         }
         val wm = WorkManager.getInstance(this)
         LectureNotificationUtil.schedule(wm)
+
+        withContext(Default) { delay(5000L) }
+        db.course().delete(TEST_COURSE)
     }
 
     private companion object {
