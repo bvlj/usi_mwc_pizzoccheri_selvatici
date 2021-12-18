@@ -1,12 +1,12 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="ch.usi.inf.mwc.cusi">
 
+    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
 
     <application
         android:allowBackup="false"
@@ -28,8 +28,8 @@
 
         <activity
             android:name=".test.TestActivity"
-            android:theme="@style/Theme.MaterialComponents.DayNight.DarkActionBar"
-            android:exported="true" />
+            android:exported="false"
+            android:theme="@style/Theme.MaterialComponents.DayNight.DarkActionBar" />
 
         <!-- Secret Code Receiver, which is used to launch different activities via dialer codes -->
         <receiver
@@ -42,5 +42,10 @@
                     android:scheme="android_secret_code" />
             </intent-filter>
         </receiver>
+
+        <service
+            android:name=".networking.sync.SyncService"
+            android:exported="false"
+            android:foregroundServiceType="dataSync" />
     </application>
 </manifest>

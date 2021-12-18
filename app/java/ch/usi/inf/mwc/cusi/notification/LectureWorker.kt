@@ -61,14 +61,14 @@ class LectureWorker(
             nm.createNotificationChannel(
                 NotificationChannel(
                     CHANNEL_ID,
-                    context.getString(R.string.notification_channel_title),
+                    context.getString(R.string.notification_lectures_channel),
                     NotificationManager.IMPORTANCE_HIGH,
                 )
             )
         }
 
         val message = context.getString(
-            R.string.notification_message,
+            R.string.notification_lectures_message,
             courseName,
             room,
             address

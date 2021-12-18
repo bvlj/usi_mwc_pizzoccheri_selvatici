@@ -45,8 +45,10 @@
     <string name="day_selector_next">Next day</string>
     <string name="schedule_empty">All done for today 🎉</string>
 
-    <string name="notification_channel_title">Lecture reminders</string>
-    <string name="notification_message">A lecture of the "%1$s" course is about to begin! Head to %2$s at %3$s</string>
+    <string name="notification_lectures_channel">Lecture reminders</string>
+    <string name="notification_lectures_message">A lecture of the "%1$s" course is about to begin! Head to %2$s at %3$s</string>
+    <string name="notification_sync_channel">Data sync</string>
+    <string name="notification_sync_message">Syncing data…</string>
 
     <string name="test_test_address">Lecture address</string>
     <string name="test_test_notification">Send test notification</string>

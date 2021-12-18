@@ -140,4 +140,6 @@ class MainActivity : AppCompatActivity() {
         }
         LectureNotificationUtil.schedule(wm)
     }
+
+
 }

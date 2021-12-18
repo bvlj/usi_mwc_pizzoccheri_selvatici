@@ -1,5 +1,9 @@
 package ch.usi.inf.mwc.cusi.courses
 
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -17,6 +21,8 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import ch.usi.inf.mwc.cusi.R
 import ch.usi.inf.mwc.cusi.course.CourseDetailsFragment
+import ch.usi.inf.mwc.cusi.networking.sync.SyncBroadcast
+import ch.usi.inf.mwc.cusi.networking.sync.SyncService
 import ch.usi.inf.mwc.cusi.utils.removeItemDecorationByClass
 import ch.usi.inf.mwc.cusi.utils.ui.SideHeaderDecoration
 import kotlinx.coroutines.launch
@@ -26,6 +32,19 @@ class AllCoursesFragment : Fragment() {
     private val viewModel: AllCoursesViewModel by viewModels()
 
     private lateinit var adapter: AllCoursesAdapter
+    private lateinit var refreshLayout: SwipeRefreshLayout
+
+    private val syncBroadcastReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent?) {
+            refreshLayout.isRefreshing = false
+        }
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        context?.registerReceiver(syncBroadcastReceiver, SyncBroadcast.INTENT_FILTER)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -47,12 +66,11 @@ class AllCoursesFragment : Fragment() {
 
         val emptyView: TextView = view.findViewById(R.id.courses_empty)
 
-        val refreshLayout: SwipeRefreshLayout = view.findViewById(R.id.courses_refresh)
+        refreshLayout = view.findViewById(R.id.courses_refresh)
         refreshLayout.setOnRefreshListener {
-            lifecycleScope.launch {
-                refreshLayout.isRefreshing = true
-                viewModel.manualSync()
-                refreshLayout.isRefreshing = false
+            refreshLayout.isRefreshing = true
+            context?.run {
+                startForegroundService(Intent(this, SyncService::class.java))
             }
         }
 
@@ -76,6 +94,11 @@ class AllCoursesFragment : Fragment() {
             emptyView.visibility = if (newList.isEmpty()) View.VISIBLE else View.GONE
             adapter.setList(newList)
         }
+    }
+
+    override fun onDestroy() {
+        context?.unregisterReceiver(syncBroadcastReceiver)
+        super.onDestroy()
     }
 
     private fun openCourseInfo(courseId: Int) {

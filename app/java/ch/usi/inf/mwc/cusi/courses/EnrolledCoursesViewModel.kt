@@ -11,13 +11,7 @@ import kotlinx.coroutines.withContext
 
 class EnrolledCoursesViewModel(app: Application) : AndroidViewModel(app) {
 
-
-    suspend fun manualSync() {
-        AppDataSync.fetchInfo(getApplication())
-    }
-
-
-    fun getAllCourses(): LiveData<List<CourseWithLecturers>> {
+    fun getEnrolledCourses(): LiveData<List<CourseWithLecturers>> {
         val db = AppDatabase.getInstance(getApplication())
         return db.course().getEnrolledLive()
     }

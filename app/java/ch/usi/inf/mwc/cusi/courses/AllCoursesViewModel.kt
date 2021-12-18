@@ -1,23 +1,18 @@
 package ch.usi.inf.mwc.cusi.courses
 
 import android.app.Application
-import androidx.lifecycle.*
+import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.switchMap
 import ch.usi.inf.mwc.cusi.db.AppDatabase
-import ch.usi.inf.mwc.cusi.model.Course
 import ch.usi.inf.mwc.cusi.model.CourseWithLecturers
-import ch.usi.inf.mwc.cusi.networking.sync.AppDataSync
-import kotlinx.coroutines.Dispatchers.Default
-import kotlinx.coroutines.withContext
 
 class AllCoursesViewModel(app: Application) : AndroidViewModel(app) {
 
     private val filter = MutableLiveData("")
 
-    suspend fun manualSync() {
-        AppDataSync.fetchInfo(getApplication())
-    }
-
-    fun setFilter(value: String){
+    fun setFilter(value: String) {
         filter.value = value
     }
 
@@ -29,7 +24,6 @@ class AllCoursesViewModel(app: Application) : AndroidViewModel(app) {
             } else {
                 db.course().getLiveFiltered("%$it%")
             }
-
         }
     }
 }

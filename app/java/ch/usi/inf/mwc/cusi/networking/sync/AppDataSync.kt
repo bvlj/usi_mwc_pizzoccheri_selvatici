@@ -15,7 +15,6 @@ object AppDataSync {
     private const val TAG = "AppDataSync"
     private val scope = CoroutineScope(IO) + CoroutineName("AppDataSync")
 
-
     suspend fun fetchInfo(context: Context) {
         withContext(scope.coroutineContext) {
             Log.d(TAG, "Starting app data sync")
