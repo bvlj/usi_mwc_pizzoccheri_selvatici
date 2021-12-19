@@ -9,7 +9,7 @@ interface FacultyDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(faculty: Faculty)
 
-    @Query("SELECT * FROM Faculty WHERE facultyId=:facultyId LIMIT 1")
+    @Query("SELECT * FROM Faculty WHERE facultyId = :facultyId LIMIT 1")
     suspend fun getById(facultyId: Int): Faculty?
 
     @Query("SELECT * FROM Faculty")
@@ -17,6 +17,9 @@ interface FacultyDao {
 
     @Query("SELECT * FROM Faculty ORDER BY name")
     fun getLive(): LiveData<List<Faculty>>
+
+    @Query("SELECT name FROM Faculty WHERE showCourses = 1 ORDER BY name")
+    fun getSelectedLiveNames(): LiveData<List<String>>
 
     @Update
     suspend fun update(faculty: Faculty)

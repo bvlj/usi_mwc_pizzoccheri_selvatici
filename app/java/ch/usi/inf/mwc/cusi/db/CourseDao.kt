@@ -21,11 +21,11 @@ interface CourseDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertCrossRef(courseLecturerCrossRef: CourseLecturerCrossRef)
 
-    @Query("SELECT * FROM CourseInfo WHERE hasEnrolled = 1")
+    @Query("SELECT * FROM CourseInfo WHERE hasEnrolled = 1 ORDER BY name")
     @Transaction
     suspend fun getEnrolled(): List<Course>
 
-    @Query("SELECT * FROM CourseInfo WHERE hasEnrolled = 1")
+    @Query("SELECT * FROM CourseInfo WHERE hasEnrolled = 1 ORDER BY name")
     @Transaction
     fun getEnrolledLive(): LiveData<List<CourseWithLecturers>>
 

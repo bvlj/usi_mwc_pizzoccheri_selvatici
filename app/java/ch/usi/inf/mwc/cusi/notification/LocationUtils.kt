@@ -1,4 +1,4 @@
-package ch.usi.inf.mwc.cusi.utils
+package ch.usi.inf.mwc.cusi.notification
 
 import android.content.Context
 import android.location.Address

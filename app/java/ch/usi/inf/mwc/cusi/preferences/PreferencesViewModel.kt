@@ -15,6 +15,11 @@ class PreferencesViewModel(app: Application) : AndroidViewModel(app) {
         return db.faculties().getLive()
     }
 
+    fun getSelectedFacultiesNames(): LiveData<List<String>> {
+        val db = AppDatabase.getInstance(getApplication())
+        return db.faculties().getSelectedLiveNames()
+    }
+
     suspend fun setSelectedFaculties(selectedIds: List<Int>) = withContext(Default) {
         val db = AppDatabase.getInstance(getApplication())
         db.faculties().getAll()

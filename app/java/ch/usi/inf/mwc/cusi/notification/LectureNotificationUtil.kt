@@ -9,7 +9,6 @@ import java.util.concurrent.TimeUnit
 
 object LectureNotificationUtil {
     private const val TAG = "LectureNotificationUtil"
-    private const val DEBUG = false
 
     fun schedule(workManager: WorkManager) {
         Log.d(TAG, "Scheduling periodic requests")
@@ -22,9 +21,7 @@ object LectureNotificationUtil {
             periodicRequest
         )
 
-        if (DEBUG) {
-            Log.d(TAG, "Scheduling one–time request")
-            workManager.enqueue(OneTimeWorkRequestBuilder<NotificationSchedulerWorker>().build())
-        }
+        Log.d(TAG, "Scheduling one–time request")
+        workManager.enqueue(OneTimeWorkRequestBuilder<NotificationSchedulerWorker>().build())
     }
 }

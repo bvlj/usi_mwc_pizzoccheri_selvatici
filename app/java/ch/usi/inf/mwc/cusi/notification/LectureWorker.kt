@@ -8,8 +8,7 @@ import android.util.Log
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import ch.usi.inf.mwc.cusi.R
-import ch.usi.inf.mwc.cusi.utils.LocationUtils
-import ch.usi.inf.mwc.cusi.utils.LocationUtils.minus
+import ch.usi.inf.mwc.cusi.notification.LocationUtils.minus
 
 class LectureWorker(
     context: Context,
@@ -87,7 +86,7 @@ class LectureWorker(
 
         private const val CHANNEL_ID = "lecture_worker_channel"
 
-        private const val DISTANCE_THRESHOLD = 800.0 // meters
+        private const val DISTANCE_THRESHOLD = 150.0 // meters
 
         const val KEY_NAME = "name"
         const val KEY_ADDRESS = "address"

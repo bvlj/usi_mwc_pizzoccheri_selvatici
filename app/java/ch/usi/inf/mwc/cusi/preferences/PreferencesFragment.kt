@@ -81,6 +81,9 @@ class PreferencesFragment : PreferenceFragmentCompat() {
                 entryValues = faculties.map { it.facultyId.toString() }.toTypedArray()
             }
         }
+        viewModel.getSelectedFacultiesNames().observe(this) { names ->
+            facultiesPreference?.summary = names.joinToString(", ")
+        }
 
         registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { results ->
             setNotificationPreferenceSummary(results.values.all { it })
