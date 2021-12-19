@@ -1,7 +1,6 @@
 package ch.usi.inf.mwc.cusi.notification
 
 import android.content.Context
-import android.content.SharedPreferences
 import android.util.Log
 import androidx.preference.PreferenceManager
 import androidx.work.*
@@ -34,8 +33,9 @@ class NotificationSchedulerWorker(
 
         db.lectures().selectAllEnrolledWithinDates(start, end).forEach { lecture ->
             val courseInfo = db.course().getCourseInfo(lecture.courseId)
+            val startInEpochSeconds = lecture.start.atZone(zone).toEpochSecond()
 
-            val delay = lecture.start.atZone(zone).toEpochSecond() -
+            val delay = startInEpochSeconds -
                     start.atZone(zone).toEpochSecond() -
                     BEFORE_LECTURE
 
@@ -49,6 +49,7 @@ class NotificationSchedulerWorker(
                         .putString(LectureWorker.KEY_NAME, courseInfo?.name)
                         .putString(LectureWorker.KEY_ADDRESS, lecture.lectureLocation.address)
                         .putString(LectureWorker.KEY_ROOM, lecture.lectureLocation.room)
+                        .putLong(LectureWorker.KEY_TIMESTAMP, startInEpochSeconds * 1000L)
                         .build()
                 )
                 .build()

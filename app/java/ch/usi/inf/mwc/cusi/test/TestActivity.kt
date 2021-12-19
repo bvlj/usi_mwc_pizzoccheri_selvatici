@@ -77,7 +77,7 @@ class TestActivity : AppCompatActivity() {
     private companion object {
         val TEST_COURSE = CourseInfo(
             courseId = 1123581321,
-            name = "Test course",
+            name = "Test",
             description = "This is a test course, please ignore me",
             semester = "",
             facultyId = 1,

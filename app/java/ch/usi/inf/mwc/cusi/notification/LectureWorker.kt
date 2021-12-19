@@ -22,6 +22,7 @@ class LectureWorker(
             Log.e(TAG, "Missing address parameter")
             Result.failure()
         }
+        val timestamp = inputData.getLong(KEY_TIMESTAMP, System.currentTimeMillis())
 
         val userLocation = LocationUtils.getLastGoodLocation(applicationContext)
             ?: return run {
@@ -36,7 +37,7 @@ class LectureWorker(
 
         val distance = userLocation - lectureAddress
         if (distance > DISTANCE_THRESHOLD) {
-            sendNotification(applicationContext, name, room, address)
+            sendNotification(applicationContext, name, room, address, timestamp)
         } else {
             Log.d(
                 TAG, "Within distance treshold: " +
@@ -54,6 +55,7 @@ class LectureWorker(
         courseName: String,
         room: String,
         address: String,
+        timestamp: Long,
     ) {
         val nm = context.getSystemService(NotificationManager::class.java)
         if (nm.getNotificationChannel(CHANNEL_ID) == null) {
@@ -77,6 +79,8 @@ class LectureWorker(
             .setSmallIcon(R.drawable.ic_notification)
             .setContentTitle(courseName)
             .setContentText(message)
+            .setShowWhen(true)
+            .setWhen(timestamp)
             .build()
         nm.notify(courseName.hashCode(), notification)
     }
@@ -91,5 +95,6 @@ class LectureWorker(
         const val KEY_NAME = "name"
         const val KEY_ADDRESS = "address"
         const val KEY_ROOM = "room"
+        const val KEY_TIMESTAMP = "timestamp"
     }
 }
