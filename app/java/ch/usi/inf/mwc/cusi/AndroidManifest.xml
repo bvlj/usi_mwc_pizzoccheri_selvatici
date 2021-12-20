@@ -11,6 +11,7 @@
     <application
         android:allowBackup="false"
         android:appCategory="productivity"
+        android:icon="@mipmap/ic_launcher"
         android:label="@string/app_label"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
