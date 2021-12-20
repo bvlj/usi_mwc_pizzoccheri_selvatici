@@ -3,9 +3,13 @@ package ch.usi.inf.mwc.cusi.test
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.util.Log
 
 /**
+ * The secret portal to CUSI
+ *
+ *
  * Secret code receiver.
  * To be used by the OS to launch the test activity.
  *
@@ -47,9 +51,18 @@ class SecretCodeReceiver : BroadcastReceiver() {
 
     private fun handleSecretCode(context: Context, secretCode: Int) {
         when (secretCode) {
-            SECRET_CODE -> {
-                context.startActivity(Intent(context, TestActivity::class.java)
-                    .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
+            SECRET_CODE_TEST -> {
+                context.startActivity(
+                    Intent(context, TestActivity::class.java)
+                        .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                )
+            }
+            SECRET_CODE_UFO -> {
+                context.startActivity(
+                    Intent(Intent.ACTION_VIEW)
+                        .setData(Uri.parse(UFO))
+                        .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                )
             }
             else -> {
                 Log.d(TAG, "Unknown secret code ($secretCode), ignoring...")
@@ -60,6 +73,9 @@ class SecretCodeReceiver : BroadcastReceiver() {
     private companion object {
         const val TAG = "SecretCodeReceiver"
         const val ACTION_SECRET_CODE = "android.provider.Telephony.SECRET_CODE"
-        const val SECRET_CODE = 2874 // "CUSI" in T9
+        const val SECRET_CODE_TEST = 2874 // "CUSI" in T9
+
+        const val SECRET_CODE_UFO = 28746397 // CUSINEWS in T9
+        const val UFO = "https://www.cusi-news.ch/"
     }
 }
