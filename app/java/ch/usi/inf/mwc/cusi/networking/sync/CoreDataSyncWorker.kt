@@ -14,12 +14,7 @@ class CoreDataSyncWorker(
 ) : CoroutineWorker(context, params) {
 
     override suspend fun doWork(): Result {
-        applicationContext.startForegroundService(
-            Intent(
-                applicationContext,
-                SyncService::class.java
-            )
-        )
+        SyncBroadcast.syncAll(applicationContext)
         return Result.success()
     }
 }

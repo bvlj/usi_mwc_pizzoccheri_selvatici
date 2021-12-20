@@ -30,8 +30,16 @@ class SyncService : Service(), CoroutineScope {
         val notification = buildNotification()
         startForeground(NOTIFICATION_ID, notification)
 
+        val courseId = intent?.getIntExtra(SyncBroadcast.ARG_SYNC_LECTURES, -1) ?: -1
+
         launch(job) {
-            performSync()
+            if (courseId > 0) {
+                // Sync lectures of the given course
+                syncLectures(courseId)
+            } else {
+                // Sync all data
+                syncAll()
+            }
             stopSelf()
         }
 
@@ -63,7 +71,7 @@ class SyncService : Service(), CoroutineScope {
             .build()
     }
 
-    private suspend fun performSync() {
+    private suspend fun syncAll() {
         try {
             // Fetch new data
             AppDataSync.fetchInfo(applicationContext)
@@ -75,7 +83,19 @@ class SyncService : Service(), CoroutineScope {
             Log.e(TAG, "Failed to insert data into the database", e)
             sendBroadcast(SyncBroadcast.getIntent(false))
         } catch (e: IOException) {
-            Log.e(TAG, "Failed to sync into data", e)
+            Log.e(TAG, "Failed to sync data", e)
+            sendBroadcast(SyncBroadcast.getIntent(false))
+        }
+    }
+
+    private suspend fun syncLectures(courseId: Int) {
+        try {
+            AppDataSync.refreshCourseLectures(applicationContext, courseId)
+        } catch (e: SQLException) {
+            Log.e(TAG, "Failed to insert lectures into the database", e)
+            sendBroadcast(SyncBroadcast.getIntent(false))
+        } catch (e: IOException) {
+            Log.e(TAG, "Failed to sync lectures", e)
             sendBroadcast(SyncBroadcast.getIntent(false))
         }
     }

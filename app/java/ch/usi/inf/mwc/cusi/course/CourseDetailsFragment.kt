@@ -75,7 +75,7 @@ class CourseDetailsFragment : Fragment() {
                 enrollButton.setText(R.string.course_details_action_unenroll)
                 enrollButton.setOnClickListener {
                     // Execute on the activity lifecycleScope so that if the user
-                    // quickly goes back, the sync is not interrupted
+                    // quickly goes back, the operation is not interrupted
                     requireActivity().lifecycleScope.launch { viewModel.unenroll(courseId) }
                 }
             } else {
@@ -83,7 +83,7 @@ class CourseDetailsFragment : Fragment() {
                 enrollButton.setText(R.string.course_details_action_enroll)
                 enrollButton.setOnClickListener {
                     // Execute on the activity lifecycleScope so that if the user
-                    // quickly goes back, the sync is not interrupted
+                    // quickly goes back, the operation is not interrupted
                     requireActivity().lifecycleScope.launch { viewModel.enroll(courseId) }
                 }
             }

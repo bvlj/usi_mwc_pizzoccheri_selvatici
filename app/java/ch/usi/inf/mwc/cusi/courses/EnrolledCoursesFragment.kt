@@ -66,9 +66,7 @@ class EnrolledCoursesFragment : Fragment() {
         refreshLayout = view.findViewById(R.id.courses_refresh)
         refreshLayout.setOnRefreshListener {
             refreshLayout.isRefreshing = true
-            context?.run {
-                startForegroundService(Intent(this, SyncService::class.java))
-            }
+            context?.run { SyncBroadcast.syncAll(this) }
         }
 
         viewModel.getEnrolledCourses().observe(this) { newList ->

@@ -8,6 +8,7 @@ import androidx.lifecycle.map
 import ch.usi.inf.mwc.cusi.db.AppDatabase
 import ch.usi.inf.mwc.cusi.model.CourseInfo
 import ch.usi.inf.mwc.cusi.networking.sync.AppDataSync
+import ch.usi.inf.mwc.cusi.networking.sync.SyncBroadcast
 
 
 class CourseDetailsViewModel(app: Application) : AndroidViewModel(app) {
@@ -32,7 +33,7 @@ class CourseDetailsViewModel(app: Application) : AndroidViewModel(app) {
      */
     suspend fun enroll(courseId: Int) {
         manageEnroll(courseId, true)
-        AppDataSync.refreshCourseLectures(getApplication(), courseId)
+        SyncBroadcast.syncLectures(getApplication(), courseId)
     }
 
     /**
