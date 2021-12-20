@@ -45,6 +45,11 @@ class TestActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * Schedule a test notification using a test course that's
+     * temporarily put in the database with a lecture that begins
+     * in 31 minutes from when the notification is scheduled.
+     */
     private suspend fun scheduleTestNotification(address: String) {
         val db = AppDatabase.getInstance(this)
         db.course().run {
@@ -77,7 +82,7 @@ class TestActivity : AppCompatActivity() {
     private companion object {
         val TEST_COURSE = CourseInfo(
             courseId = 1123581321,
-            name = "Test",
+            name = "Mobile & Wearable computing",
             description = "This is a test course, please ignore me",
             semester = "",
             facultyId = 1,

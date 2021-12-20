@@ -5,6 +5,9 @@ import android.content.Intent
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 
+/**
+ * Worker that starts the [SyncService].
+ */
 class CoreDataSyncWorker(
     context: Context,
     params: WorkerParameters,

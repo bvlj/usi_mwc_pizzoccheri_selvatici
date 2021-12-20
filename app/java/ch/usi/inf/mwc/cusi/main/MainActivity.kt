@@ -48,8 +48,10 @@ class MainActivity : AppCompatActivity() {
         val bottomBar: BottomNavigationView = findViewById(R.id.bottom_nav)
 
         setSupportActionBar(toolbar)
+        // Draw in full screen
         WindowCompat.setDecorFitsSystemWindows(window, false)
 
+        // Navigation controller
         val navHostFragment = supportFragmentManager.findFragmentById(
             R.id.nav_host_container
         ) as NavHostFragment
@@ -66,12 +68,14 @@ class MainActivity : AppCompatActivity() {
         setupActionBarWithNavController(navController, appBarConfiguration)
         bottomBar.setupWithNavController(navController)
 
+        // Sensor manager and preference manager for style listeners
         sensorManager = getSystemService(SensorManager::class.java)
         prefsManager = PreferenceManager.getDefaultSharedPreferences(this).apply {
             registerOnSharedPreferenceChangeListener(prefsListener)
             onStyleChanged(getString(Preferences.KEY_STYLE, Preferences.VALUE_STYLE_SYSTEM))
         }
 
+        // Sync data
         syncCoreDataIfNeed()
     }
 
@@ -129,7 +133,9 @@ class MainActivity : AppCompatActivity() {
 
     private fun syncCoreDataIfNeed() {
         val wm = WorkManager.getInstance(this)
+
         if (SyncInfoStorage(this).shouldSync()) {
+            // Sync once connected to the internet
             val coreDataSyncRequest = OneTimeWorkRequestBuilder<CoreDataSyncWorker>()
                 .setConstraints(
                     Constraints.Builder()
@@ -138,8 +144,7 @@ class MainActivity : AppCompatActivity() {
                 ).build()
             wm.enqueue(coreDataSyncRequest)
         }
+        // Schedule lectures notifications
         LectureNotificationUtil.schedule(wm)
     }
-
-
 }

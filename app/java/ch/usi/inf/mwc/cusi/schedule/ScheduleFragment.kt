@@ -22,7 +22,7 @@ class ScheduleFragment : Fragment() {
     private val viewModel: ScheduleViewModel by viewModels()
 
     private lateinit var emptyView: TextView
-    private lateinit var adapter: ScheduleAdapter
+    private lateinit var listAdapter: ScheduleAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -35,7 +35,8 @@ class ScheduleFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        adapter = ScheduleAdapter {
+        listAdapter = ScheduleAdapter {
+            // On click listener
             findNavController().navigate(
                 R.id.action_schedule_to_scheduleDetails,
                 Bundle().apply {
@@ -45,23 +46,31 @@ class ScheduleFragment : Fragment() {
         }
 
         val listView: RecyclerView = view.findViewById(R.id.schedule_courses_list)
-        listView.adapter = adapter
-        listView.layoutManager = LinearLayoutManager(requireContext())
-        listView.itemAnimator = DefaultItemAnimator()
+        listView.apply {
+            adapter = listAdapter
+            layoutManager = LinearLayoutManager(requireContext())
+            itemAnimator = DefaultItemAnimator()
+        }
 
         emptyView = view.findViewById(R.id.schedule_empty)
 
         val daySelectorView: DaySelectorView = view.findViewById(R.id.schedule_day_selector)
         daySelectorView.setOnDateSelectedListener { setList(it) }
 
-        lifecycleScope.launch { setList() }
+        if (savedInstanceState == null) {
+            // Show today's schedule only the first time
+            // From the second time (savedInstanceState != null)
+            // The daySelectorView will retain the selected date
+            // And so it will call setList on its own through the listener
+            setList()
+        }
     }
 
     private fun setList(date: LocalDate = LocalDate.now()) {
         lifecycleScope.launch {
             val list = viewModel.getSchedule(date)
             emptyView.visibility = if (list.isEmpty()) View.VISIBLE else View.GONE
-            adapter.setList(list)
+            listAdapter.setList(list)
         }
     }
 }

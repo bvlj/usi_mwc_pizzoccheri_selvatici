@@ -12,6 +12,7 @@ object LectureNotificationUtil {
 
     fun schedule(workManager: WorkManager) {
         Log.d(TAG, "Scheduling periodic requests")
+        // Schedule every day
         val periodicRequest =
             PeriodicWorkRequestBuilder<NotificationSchedulerWorker>(1, TimeUnit.DAYS)
                 .build()
@@ -21,6 +22,7 @@ object LectureNotificationUtil {
             periodicRequest
         )
 
+        // Perform one now for today's schedule
         Log.d(TAG, "Scheduling one–time request")
         workManager.enqueue(OneTimeWorkRequestBuilder<NotificationSchedulerWorker>().build())
     }

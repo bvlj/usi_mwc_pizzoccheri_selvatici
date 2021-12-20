@@ -24,6 +24,7 @@ class LectureWorker(
         }
         val timestamp = inputData.getLong(KEY_TIMESTAMP, System.currentTimeMillis())
 
+        // Compare the user and lecture locations
         val userLocation = LocationUtils.getLastGoodLocation(applicationContext)
             ?: return run {
                 Log.e(TAG, "Failed to get user location")

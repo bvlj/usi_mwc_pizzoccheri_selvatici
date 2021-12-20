@@ -36,11 +36,13 @@ abstract class AppDatabase : RoomDatabase() {
 
     companion object : SingletonHolder<AppDatabase, Context>({
         if (AppDatabase.DEBUG) {
+            // In–memory db for debug
             Room.inMemoryDatabaseBuilder(
                 it.applicationContext ?: it,
                 AppDatabase::class.java
             ).build()
         } else {
+            // Actual db in storage
             Room.databaseBuilder(
                 it.applicationContext ?: it,
                 AppDatabase::class.java,

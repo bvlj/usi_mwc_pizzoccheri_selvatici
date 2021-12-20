@@ -42,6 +42,7 @@ class CourseDetailsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        // Read course from arguments
         courseId = arguments?.getInt(EXTRA_COURSE_ID, -1) ?: -1
 
         titleView = view.findViewById(R.id.course_title)
@@ -63,6 +64,8 @@ class CourseDetailsFragment : Fragment() {
 
     private fun fetchContent() {
         viewModel.getCourseWithLecturers(courseId).observe(this) {
+            // Set UI content based on the state
+
             titleView.text = it.courseName
             descriptionView.text = it.courseDescription
 
@@ -71,22 +74,27 @@ class CourseDetailsFragment : Fragment() {
                 enrollButton.setIconResource(R.drawable.ic_enrolled)
                 enrollButton.setText(R.string.course_details_action_unenroll)
                 enrollButton.setOnClickListener {
+                    // Execute on the activity lifecycleScope so that if the user
+                    // quickly goes back, the sync is not interrupted
                     requireActivity().lifecycleScope.launch { viewModel.unenroll(courseId) }
                 }
-
             } else {
                 enrollButton.setIconResource(R.drawable.ic_unenrolled)
                 enrollButton.setText(R.string.course_details_action_enroll)
                 enrollButton.setOnClickListener {
+                    // Execute on the activity lifecycleScope so that if the user
+                    // quickly goes back, the sync is not interrupted
                     requireActivity().lifecycleScope.launch { viewModel.enroll(courseId) }
                 }
             }
 
+            // Set lecturers data
             lecturersAdapter.setData(it.lecturers)
         }
     }
 
     private fun callLecturer(phoneNumber: String) {
+        // Open the dialer app with the phone number ready to be called
         startActivity(
             Intent(Intent.ACTION_DIAL)
                 .setData(Uri.fromParts("tel", phoneNumber, null))
@@ -94,6 +102,7 @@ class CourseDetailsFragment : Fragment() {
     }
 
     private fun mailLecturer(email: String) {
+        // Open the mail app with the recipient address already filled
         startActivity(
             Intent(Intent.ACTION_SENDTO)
                 .setData(Uri.fromParts("mailto", email, null))

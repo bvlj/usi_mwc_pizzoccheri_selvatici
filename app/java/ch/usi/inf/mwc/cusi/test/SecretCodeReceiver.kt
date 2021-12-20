@@ -5,6 +5,16 @@ import android.content.Context
 import android.content.Intent
 import android.util.Log
 
+/**
+ * Secret code receiver.
+ * To be used by the OS to launch the test activity.
+ *
+ * How to use:
+ * 1. Open the app
+ * 2. Open the dialer app
+ * 3. Write "*#*#2874#*#*" in the T9
+ * 4. The test activity should be appear
+ */
 class SecretCodeReceiver : BroadcastReceiver() {
 
     override fun onReceive(context: Context?, intent: Intent?) {
@@ -37,7 +47,7 @@ class SecretCodeReceiver : BroadcastReceiver() {
 
     private fun handleSecretCode(context: Context, secretCode: Int) {
         when (secretCode) {
-            SECRET_CODE_DIAGNOSTICS -> {
+            SECRET_CODE -> {
                 context.startActivity(Intent(context, TestActivity::class.java)
                     .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
             }
@@ -50,6 +60,6 @@ class SecretCodeReceiver : BroadcastReceiver() {
     private companion object {
         const val TAG = "SecretCodeReceiver"
         const val ACTION_SECRET_CODE = "android.provider.Telephony.SECRET_CODE"
-        const val SECRET_CODE_DIAGNOSTICS = 2874
+        const val SECRET_CODE = 2874 // "CUSI" in T9
     }
 }

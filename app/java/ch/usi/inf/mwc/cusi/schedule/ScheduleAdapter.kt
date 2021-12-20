@@ -1,5 +1,6 @@
 package ch.usi.inf.mwc.cusi.schedule
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,9 +9,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import ch.usi.inf.mwc.cusi.R
 import ch.usi.inf.mwc.cusi.model.CourseInfo
-import ch.usi.inf.mwc.cusi.model.CourseWithLecturers
 import ch.usi.inf.mwc.cusi.model.Lecture
-import ch.usi.inf.mwc.cusi.model.Lecturer
 import java.time.format.DateTimeFormatter
 
 
@@ -22,6 +21,7 @@ class ScheduleAdapter(
     private var data: List<LectureInfo> = emptyList()
 
     fun setList(data: List<LectureInfo>) {
+        // Compute diff for animation and set data
         val diff = DiffUtil.calculateDiff(Callback(this.data, data))
         this.data = data
         diff.dispatchUpdatesTo(this)
@@ -42,6 +42,7 @@ class ScheduleAdapter(
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
+        @SuppressLint("SetTextI18n")
         fun setContent(lectureInfo: LectureInfo, onCourseSelected: (Int) -> Unit) {
             val nameView: TextView = itemView.findViewById(R.id.course_name)
             val roomAndTimeView: TextView = itemView.findViewById(R.id.course_room)
@@ -49,7 +50,7 @@ class ScheduleAdapter(
             nameView.text = lectureInfo.second.name
 
             val time = DateTimeFormatter.ofPattern("HH:mm").run {
-                format(lectureInfo.first.start) + "-"  + format(lectureInfo.first.end)
+                format(lectureInfo.first.start) + " - "  + format(lectureInfo.first.end)
             }
 
             val room = lectureInfo.first.lectureLocation.room

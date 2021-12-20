@@ -45,6 +45,7 @@ class DaySelectorAdapter(
 
     fun setDate(date: LocalDate) {
         val dates = getDates(date)
+        // Compute diff for animation and set data
         val diff = DiffUtil.calculateDiff(Callback(this.dates, dates))
         this.dates = dates
         diff.dispatchUpdatesTo(this)
@@ -106,8 +107,13 @@ class DaySelectorAdapter(
     }
 
     private companion object {
+        // Should be an odd number otherwise the "middle date" is not in the middle
         const val DAYS_TO_SHOW = 5
 
+        /**
+         * Get a sequence of [DAYS_TO_SHOW] dates that have
+         * the [middleDate] as the middle element
+         */
         fun getDates(middleDate: LocalDate): List<LocalDate> {
             return (0 until DAYS_TO_SHOW).map {
                 middleDate.plusDays(it - DAYS_TO_SHOW / 2L)

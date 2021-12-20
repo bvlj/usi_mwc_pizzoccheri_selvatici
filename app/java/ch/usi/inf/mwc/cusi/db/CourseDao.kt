@@ -56,13 +56,12 @@ interface CourseDao {
     suspend fun hasEnrolled(courseId: Int): Boolean?
 
     @Transaction
-    suspend fun insertOrUpdateIfExists(courseInfo: CourseInfo): CourseInfo{
+    suspend fun insertOrUpdateIfExists(courseInfo: CourseInfo): CourseInfo {
         val existing = getCourseInfo(courseInfo.courseId)
-        return if(existing  == null){
+        return if (existing == null) {
             courseInfo.apply { insert(this) }
         } else {
             courseInfo.copy(hasEnrolled = existing.hasEnrolled).apply { update(this) }
         }
-
     }
 }

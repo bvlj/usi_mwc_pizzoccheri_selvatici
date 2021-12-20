@@ -17,6 +17,9 @@ import androidx.core.text.inSpans
 import androidx.recyclerview.widget.RecyclerView
 import ch.usi.inf.mwc.cusi.R
 
+/**
+ *
+ */
 class SideHeaderDecoration(
     context: Context,
     data: Map<Int, Pair<String, String>>,

@@ -15,6 +15,9 @@ object AppDataSync {
     private const val TAG = "AppDataSync"
     private val scope = CoroutineScope(IO) + CoroutineName("AppDataSync")
 
+    /**
+     * Fetch all data from USI services and store it in the database.
+     */
     suspend fun fetchInfo(context: Context) {
         withContext(scope.coroutineContext) {
             Log.d(TAG, "Starting app data sync")
@@ -24,10 +27,12 @@ object AppDataSync {
             UsiServices.getCampusesWithFaculties().forEach { campusWithFaculties ->
                 database.campuses().insertOrUpdateIfExists(campusWithFaculties.campus)
 
+                // Fetch faculties of a given campus
                 campusWithFaculties.faculties.forEach { faculty ->
                     Log.d(TAG, "Fetching courses of the ${faculty.acronym} faculty")
                     val dbFaculty = database.faculties().insertOrUpdateIfExists(faculty)
 
+                    // If the user wants the courses of this faculty to be shown, sync them
                     if (dbFaculty.showCourses) {
                         UsiServices.getCoursesByFaculty(dbFaculty).forEach { courseWithLecturers ->
                             Log.d(TAG, " - Course: ${courseWithLecturers.info.name}")
@@ -45,6 +50,7 @@ object AppDataSync {
                                 )
                             }
 
+                            // If the user has enrolled, sync the lectures too
                             if (info.hasEnrolled) {
                                 refreshCourseLectures(context, info.courseId)
                             }
@@ -56,6 +62,9 @@ object AppDataSync {
         Log.d(TAG, "Done syncing")
     }
 
+    /**
+     * Update the lectures data
+     */
     suspend fun refreshCourseLectures(context: Context, courseId: Int) {
         val database = getDatabase(context)
         database.lectures().deleteAllOfCourse(courseId)
@@ -65,15 +74,6 @@ object AppDataSync {
             .distinctBy { it.start to it.end to it.courseId }
             .forEach { lecture -> database.lectures().insert(lecture) }
     }
-
-    suspend fun refreshAllEnrolledCoursesLectures(context: Context) {
-        val database = getDatabase(context)
-        val enrolledCourses = database.course().getEnrolled()
-        enrolledCourses.forEach {
-            refreshCourseLectures(context, it.courseWithLecturers.info.courseId)
-        }
-    }
-
 
     private fun getDatabase(context: Context): AppDatabase {
         return AppDatabase.getInstance(context)

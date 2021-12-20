@@ -10,7 +10,4 @@ interface LecturerDao {
 
     @Delete
     suspend fun delete(lecturer: Lecturer)
-
-    @Query("SELECT * FROM Lecturer ORDER BY lastName, firstName")
-    suspend fun getAll(): List<Lecturer>
 }

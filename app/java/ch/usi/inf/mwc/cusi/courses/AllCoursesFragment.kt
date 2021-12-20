@@ -3,7 +3,6 @@ package ch.usi.inf.mwc.cusi.courses
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import android.content.IntentFilter
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -13,7 +12,6 @@ import android.widget.TextView
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -25,17 +23,17 @@ import ch.usi.inf.mwc.cusi.networking.sync.SyncBroadcast
 import ch.usi.inf.mwc.cusi.networking.sync.SyncService
 import ch.usi.inf.mwc.cusi.utils.removeItemDecorationByClass
 import ch.usi.inf.mwc.cusi.utils.ui.SideHeaderDecoration
-import kotlinx.coroutines.launch
 
 class AllCoursesFragment : Fragment() {
 
     private val viewModel: AllCoursesViewModel by viewModels()
 
-    private lateinit var adapter: AllCoursesAdapter
+    private lateinit var listAdapter: AllCoursesAdapter
     private lateinit var refreshLayout: SwipeRefreshLayout
 
     private val syncBroadcastReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
+            // Done syncing
             refreshLayout.isRefreshing = false
         }
     }
@@ -43,6 +41,7 @@ class AllCoursesFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        // Listen to sync status broadcasts
         context?.registerReceiver(syncBroadcastReceiver, SyncBroadcast.INTENT_FILTER)
     }
 
@@ -57,12 +56,14 @@ class AllCoursesFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        adapter = AllCoursesAdapter(true) { openCourseInfo(it) }
+        listAdapter = AllCoursesAdapter(true) { openCourseInfo(it) }
 
         val listView: RecyclerView = view.findViewById(R.id.courses_list)
-        listView.adapter = adapter
-        listView.layoutManager = LinearLayoutManager(requireContext())
-        listView.itemAnimator = DefaultItemAnimator()
+        listView.apply {
+            adapter = listAdapter
+            layoutManager = LinearLayoutManager(requireContext())
+            itemAnimator = DefaultItemAnimator()
+        }
 
         val emptyView: TextView = view.findViewById(R.id.courses_empty)
 
@@ -75,12 +76,13 @@ class AllCoursesFragment : Fragment() {
         }
 
         val searchBar: EditText = view.findViewById(R.id.course_search)
-
         searchBar.addTextChangedListener {
+            // Set filter to the viewModel so the courses LiveData gets updated
             viewModel.setFilter(it.toString())
         }
 
         viewModel.getAllCourses().observe(this) { newList ->
+            // Re-create the side header decoration
             val decorationData = newList.mapIndexed { i, it -> i to it.info.name.first() }
                 .distinctBy { it.second }
                 .map { it.first to (it.second.toString() to "") }
@@ -91,8 +93,9 @@ class AllCoursesFragment : Fragment() {
                 addItemDecoration(SideHeaderDecoration(requireContext(), decorationData))
             }
 
+            // Set the data and update the empty view visibility
             emptyView.visibility = if (newList.isEmpty()) View.VISIBLE else View.GONE
-            adapter.setList(newList)
+            listAdapter.setList(newList)
         }
     }
 

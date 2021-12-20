@@ -13,12 +13,8 @@ interface CampusDao {
     @Query("DELETE FROM Campus")
     suspend fun deleteAll()
 
-    @Query("SELECT * from Campus ORDER BY name")
-    @Transaction
-    suspend fun getAll(): List<CampusWithFaculties>
-
     @Query("SELECT * FROM Campus WHERE campusId=:campusId LIMIT 1")
-    suspend fun getById(campusId: Int) : Campus?
+    suspend fun getById(campusId: Int): Campus?
 
     @Update
     suspend fun update(campus: Campus)
@@ -26,12 +22,10 @@ interface CampusDao {
     @Transaction
     suspend fun insertOrUpdateIfExists(campus: Campus): Campus {
         val existing = getById(campusId = campus.campusId)
-        return if(existing  == null){
+        return if (existing == null) {
             campus.apply { insert(this) }
         } else {
             campus.apply { update(this) }
         }
-
     }
-
 }

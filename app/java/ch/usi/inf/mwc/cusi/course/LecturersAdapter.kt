@@ -33,6 +33,7 @@ class LecturersAdapter(
     }
 
     fun setData(data: List<Lecturer>) {
+        // Compute diff for animation and set data
         val diff = DiffUtil.calculateDiff(Callback(this.data, data))
         this.data = data
         diff.dispatchUpdatesTo(this)
@@ -62,6 +63,7 @@ class LecturersAdapter(
                 )
                 if (lecturer.email.isEmpty()) {
                     visibility = View.GONE
+                    // Remove listener to free the reference
                     setOnClickListener { }
                 } else {
                     visibility = View.VISIBLE
@@ -76,6 +78,7 @@ class LecturersAdapter(
                 )
                 if (lecturer.phoneNumber.isEmpty()) {
                     visibility = View.GONE
+                    // Remove listener to free the reference
                     setOnClickListener { }
                 } else {
                     visibility = View.VISIBLE

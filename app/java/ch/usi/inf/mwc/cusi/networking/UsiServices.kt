@@ -12,7 +12,7 @@ import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.*
 
-@Suppress("BlockingMethodInNonBlockingContext")
+@Suppress("BlockingMethodInNonBlockingContext") // coroutines are being used
 object UsiServices {
     private const val GET_FACULTIES_URL = "https://search.usi.ch/api/faculties"
     private const val GET_COURSES_URL = "https://search.usi.ch/api/faculties/%d/courses"
@@ -20,6 +20,9 @@ object UsiServices {
 
     private val scope = CoroutineScope(Default) + CoroutineName("UsiServices")
 
+    /**
+     * Fetch campus and faculties data.
+     */
     suspend fun getCampusesWithFaculties(): List<CampusWithFaculties> =
         withContext(scope.coroutineContext) {
             val res = getJsonObject(URL(GET_FACULTIES_URL))
@@ -45,6 +48,9 @@ object UsiServices {
                 .map { CampusWithFaculties(it.key, it.value) }
         }
 
+    /**
+     * Fetch all the courses of a given faculty.
+     */
     suspend fun getCoursesByFaculty(faculty: Faculty): List<CourseWithLecturers> =
         withContext(scope.coroutineContext) {
             val url = URL(GET_COURSES_URL.format(faculty.facultyId))
@@ -93,6 +99,9 @@ object UsiServices {
             }
         }
 
+    /**
+     * Get information about a course and its lecturers.
+     */
     suspend fun getCourseWithLectures(
         courseWithLecturers: CourseWithLecturers,
     ): Course = withContext(scope.coroutineContext) {
@@ -120,6 +129,9 @@ object UsiServices {
         )
     }
 
+    /**
+     * Helper method to get a string value of an array.
+     */
     private fun JSONObject.getArrayString(
         key: String,
         i: Int,
@@ -148,6 +160,9 @@ object UsiServices {
         }
     }
 
+    /**
+     * Extension method to get a value of type LocalDateTime.
+     */
     private fun JSONObject.getDateTime(key: String): LocalDateTime {
         return LocalDateTime.from(
             DateTimeFormatter.ISO_DATE_TIME.parse(

@@ -12,6 +12,9 @@ import ch.usi.inf.mwc.cusi.networking.sync.AppDataSync
 
 class CourseDetailsViewModel(app: Application) : AndroidViewModel(app) {
 
+    /**
+     * Get LiveData of the course details UI state.
+     */
     fun getCourseWithLecturers(courseId: Int): LiveData<CourseDetailsState> {
         val db = AppDatabase.getInstance(getApplication())
         return db.course().getCourseLive(courseId).map {
@@ -24,6 +27,26 @@ class CourseDetailsViewModel(app: Application) : AndroidViewModel(app) {
         }
     }
 
+    /**
+     * Enroll in the course.
+     */
+    suspend fun enroll(courseId: Int) {
+        manageEnroll(courseId, true)
+        AppDataSync.refreshCourseLectures(getApplication(), courseId)
+    }
+
+    /**
+     * Un–enroll in the course.
+     */
+    suspend fun unenroll(courseId: Int) {
+        manageEnroll(courseId, false)
+        val db = AppDatabase.getInstance(getApplication())
+        db.lectures().deleteAllOfCourse(courseId)
+    }
+
+    /**
+     * Change enrollment status of a course.
+     */
     private suspend fun manageEnroll(courseId: Int, doEnroll: Boolean) {
         val db = AppDatabase.getInstance(getApplication())
         val info = db.course().getCourseInfo(courseId)
@@ -32,17 +55,9 @@ class CourseDetailsViewModel(app: Application) : AndroidViewModel(app) {
         }
     }
 
-    suspend fun enroll(courseId: Int) {
-        manageEnroll(courseId, true)
-        AppDataSync.refreshCourseLectures(getApplication(), courseId)
-    }
-
-    suspend fun unenroll(courseId: Int) {
-        manageEnroll(courseId, false)
-        val db = AppDatabase.getInstance(getApplication())
-        db.lectures().deleteAllOfCourse(courseId)
-    }
-
+    /**
+     * Description HTML to Android Spanned string.
+     */
     private fun prepareDescription(course: CourseInfo): CharSequence {
         return HtmlCompat.fromHtml(
             course.description,

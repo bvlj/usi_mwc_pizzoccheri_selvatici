@@ -31,6 +31,7 @@ class EnrolledCoursesFragment : Fragment() {
 
     private val syncBroadcastReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
+            // Done syncing
             refreshLayout.isRefreshing = false
         }
     }
@@ -38,6 +39,7 @@ class EnrolledCoursesFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        // Listen to sync status broadcasts
         context?.registerReceiver(syncBroadcastReceiver, SyncBroadcast.INTENT_FILTER)
     }
 

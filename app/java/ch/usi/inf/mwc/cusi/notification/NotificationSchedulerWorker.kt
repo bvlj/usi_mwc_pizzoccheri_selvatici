@@ -31,6 +31,7 @@ class NotificationSchedulerWorker(
         val wm = WorkManager.getInstance(applicationContext)
         wm.cancelAllWorkByTag(TAG)
 
+        // Schedule all today's lectures
         db.lectures().selectAllEnrolledWithinDates(start, end).forEach { lecture ->
             val courseInfo = db.course().getCourseInfo(lecture.courseId)
             val startInEpochSeconds = lecture.start.atZone(zone).toEpochSecond()

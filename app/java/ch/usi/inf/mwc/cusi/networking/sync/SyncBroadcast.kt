@@ -9,7 +9,6 @@ object SyncBroadcast {
 
     val INTENT_FILTER = IntentFilter(ACTION)
 
-
     fun getIntent(success: Boolean) = Intent()
         .setAction(ACTION)
         .putExtra(SUCCESS, success)

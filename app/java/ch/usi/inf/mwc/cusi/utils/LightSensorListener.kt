@@ -29,6 +29,7 @@ class LightSensorListener(val onLightChanged: (Boolean) -> Unit) : SensorEventLi
 
     private companion object {
         const val TAG = "LightSensorListener"
+        // 1.5 seconds in ns
         const val UPDATE_DELTA = 1_500_000_000L
     }
 }

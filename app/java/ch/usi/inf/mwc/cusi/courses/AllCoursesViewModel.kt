@@ -16,12 +16,19 @@ class AllCoursesViewModel(app: Application) : AndroidViewModel(app) {
         filter.value = value
     }
 
+    /**
+     * Get all courses filtered by the current "filter" value.
+     */
     fun getAllCourses(): LiveData<List<CourseWithLecturers>> {
         val db = AppDatabase.getInstance(getApplication())
+        // Map the filter LiveData to a list of CourseWithLecturers so
+        // that when the user changes the filter from the search bar,
+        // the list LiveData gets automatically updated as well
         return filter.switchMap {
             if (it.isEmpty()) {
                 db.course().getLiveAll()
             } else {
+                // Surround the filter value with "% %" for the SQL "LIKE"
                 db.course().getLiveFiltered("%$it%")
             }
         }

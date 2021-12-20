@@ -11,6 +11,9 @@ import java.time.LocalDate
 class SyncInfoStorage(context: Context) {
     private val preferences = PreferenceManager.getDefaultSharedPreferences(context)
 
+    /**
+     * Whether the data should be updated according to the user's preferences.
+     */
     fun shouldSync(): Boolean {
         val now = LocalDate.now()
         val lastSync = preferences.getDate(Preferences.KEY_SYNC_LAST, NEVER_SYNCED_DATE)

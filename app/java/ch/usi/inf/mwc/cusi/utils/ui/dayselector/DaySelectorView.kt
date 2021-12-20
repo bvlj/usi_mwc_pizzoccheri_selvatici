@@ -21,22 +21,23 @@ class DaySelectorView @JvmOverloads constructor(
 ) : FrameLayout(context, attrs, defStyleAttrs) {
     private val dayOfWeekFormatter = DateTimeFormatter.ofPattern("EEE", Locale.getDefault())
     private val dateFormatter = DateTimeFormatter.ofPattern("MMM dd", Locale.getDefault())
-    private val adapter: DaySelectorAdapter
+    private val listAdapter: DaySelectorAdapter
 
     private var date = LocalDate.now()
 
     private var onDateSelectedListener: (LocalDate) -> Unit = {}
 
     init {
-        adapter = DaySelectorAdapter(date, dayOfWeekFormatter, dateFormatter, this::onDateSelected)
+        listAdapter = DaySelectorAdapter(date, dayOfWeekFormatter, dateFormatter, this::onDateSelected)
 
+        // Set view contents
         inflate(context, R.layout.view_day_selector, this)
         val listView: RecyclerView = findViewById(R.id.day_selector_list)
         val previousBtn: ImageView = findViewById(R.id.day_selector_previous)
         val nextBtn: ImageView = findViewById(R.id.day_selector_next)
 
         listView.apply {
-            adapter = this@DaySelectorView.adapter
+            adapter = listAdapter
             itemAnimator = DefaultItemAnimator()
             layoutManager = LinearLayoutManager(
                 getContext(),
@@ -62,7 +63,7 @@ class DaySelectorView @JvmOverloads constructor(
     override fun onRestoreInstanceState(state: Parcelable?) {
         if (state is Bundle) {
             super.onRestoreInstanceState(state.getParcelable(STATE_SUPER))
-            date = LocalDate.ofEpochDay(state.getLong(STATE_DATE))
+            onDateSelected(LocalDate.ofEpochDay(state.getLong(STATE_DATE)))
         }
     }
 
@@ -72,7 +73,7 @@ class DaySelectorView @JvmOverloads constructor(
 
     private fun onDateSelected(date: LocalDate) {
         this.date = date
-        adapter.setDate(date)
+        listAdapter.setDate(date)
         onDateSelectedListener(date)
     }
 

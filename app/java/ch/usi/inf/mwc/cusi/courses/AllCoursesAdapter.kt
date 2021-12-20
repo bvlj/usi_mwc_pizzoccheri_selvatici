@@ -18,6 +18,7 @@ class AllCoursesAdapter(
     private var data: List<CourseWithLecturers> = emptyList()
 
     fun setList(data: List<CourseWithLecturers>) {
+        // Compute diff for animation and set data
         val diff = DiffUtil.calculateDiff(Callback(this.data, data))
         this.data = data
         diff.dispatchUpdatesTo(this)
