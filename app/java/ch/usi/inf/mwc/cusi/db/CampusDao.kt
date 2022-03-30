@@ -2,8 +2,6 @@ package ch.usi.inf.mwc.cusi.db
 
 import androidx.room.*
 import ch.usi.inf.mwc.cusi.model.Campus
-import ch.usi.inf.mwc.cusi.model.CampusWithFaculties
-import ch.usi.inf.mwc.cusi.model.CourseInfo
 
 @Dao
 interface CampusDao {

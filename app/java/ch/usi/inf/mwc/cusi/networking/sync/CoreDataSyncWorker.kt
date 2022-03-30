@@ -1,7 +1,6 @@
 package ch.usi.inf.mwc.cusi.networking.sync
 
 import android.content.Context
-import android.content.Intent
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 

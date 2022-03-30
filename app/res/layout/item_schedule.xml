@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="?android:selectableItemBackground"
+    android:foreground="?android:selectableItemBackground"
     android:orientation="vertical"
     android:paddingHorizontal="16dp"
     android:paddingVertical="8dp">

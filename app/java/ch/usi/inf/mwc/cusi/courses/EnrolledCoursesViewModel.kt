@@ -1,13 +1,10 @@
 package ch.usi.inf.mwc.cusi.courses
 
 import android.app.Application
-import androidx.lifecycle.*
+import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
 import ch.usi.inf.mwc.cusi.db.AppDatabase
-import ch.usi.inf.mwc.cusi.model.Course
 import ch.usi.inf.mwc.cusi.model.CourseWithLecturers
-import ch.usi.inf.mwc.cusi.networking.sync.AppDataSync
-import kotlinx.coroutines.Dispatchers.Default
-import kotlinx.coroutines.withContext
 
 class EnrolledCoursesViewModel(app: Application) : AndroidViewModel(app) {
 

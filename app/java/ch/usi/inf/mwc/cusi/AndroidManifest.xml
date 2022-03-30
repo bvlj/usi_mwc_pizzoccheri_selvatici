@@ -18,8 +18,7 @@
 
         <activity
             android:name=".main.MainActivity"
-            android:exported="true"
-            android:label="@string/app_label">
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -30,6 +29,7 @@
         <activity
             android:name=".test.TestActivity"
             android:exported="false"
+            android:label="@string/label_test"
             android:theme="@style/Theme.MaterialComponents.DayNight.DarkActionBar" />
 
         <!-- Secret Code Receiver, which is used to launch different activities via dialer codes -->

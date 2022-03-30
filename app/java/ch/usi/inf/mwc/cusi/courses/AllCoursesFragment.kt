@@ -20,7 +20,6 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import ch.usi.inf.mwc.cusi.R
 import ch.usi.inf.mwc.cusi.course.CourseDetailsFragment
 import ch.usi.inf.mwc.cusi.networking.sync.SyncBroadcast
-import ch.usi.inf.mwc.cusi.networking.sync.SyncService
 import ch.usi.inf.mwc.cusi.utils.removeItemDecorationByClass
 import ch.usi.inf.mwc.cusi.utils.ui.SideHeaderDecoration
 
@@ -82,9 +81,7 @@ class AllCoursesFragment : Fragment() {
         viewModel.getAllCourses().observe(this) { newList ->
             // Re-create the side header decoration
             val decorationData = newList.mapIndexed { i, it -> i to it.info.name.first() }
-                .distinctBy { it.second }
-                .map { it.first to (it.second.toString() to "") }
-                .toMap()
+                .distinctBy { it.second }.associate { it.first to (it.second.toString() to "") }
 
             listView.apply {
                 removeItemDecorationByClass(SideHeaderDecoration::class.java)
