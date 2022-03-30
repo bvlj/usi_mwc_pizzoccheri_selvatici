@@ -10,10 +10,8 @@ import androidx.recyclerview.widget.RecyclerView
 import ch.usi.inf.mwc.cusi.R
 import ch.usi.inf.mwc.cusi.model.CourseInfo
 import ch.usi.inf.mwc.cusi.model.Lecture
+import ch.usi.inf.mwc.cusi.model.LectureInfo
 import java.time.format.DateTimeFormatter
-
-
-private typealias LectureInfo = Pair<Lecture, CourseInfo>
 
 class ScheduleAdapter(
     private val onCourseSelected: (Int) -> Unit,

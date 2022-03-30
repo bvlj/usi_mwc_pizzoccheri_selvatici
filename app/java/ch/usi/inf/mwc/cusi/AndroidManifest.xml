@@ -38,6 +38,7 @@
             android:exported="true">
             <intent-filter>
                 <action android:name="android.provider.Telephony.SECRET_CODE" />
+
                 <data
                     android:host="2874"
                     android:scheme="android_secret_code" />
@@ -51,5 +52,21 @@
             android:name=".networking.sync.SyncService"
             android:exported="false"
             android:foregroundServiceType="dataSync" />
+
+        <service
+            android:name="ch.usi.inf.mwc.cusi.schedule.widget.ScheduleWidgetViewsService"
+            android:permission="android.permission.BIND_REMOTEVIEWS" />
+
+        <receiver
+            android:name="ch.usi.inf.mwc.cusi.schedule.widget.ScheduleWidgetProvider"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_schedule" />
+        </receiver>
     </application>
 </manifest>
